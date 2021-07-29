@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <Wrapper>
       <HeaderSection><Link to="/">Healthcare-App</Link></HeaderSection>
-      <HeaderSection>This is the header.</HeaderSection>
+      <HeaderSection>Welcome</HeaderSection>
       <HeaderSection>
         {
           currentUser ?
@@ -25,11 +25,11 @@ const Header = () => {
 };
 
 const HeaderSection = styled.div`
-  padding: 2%;
+  padding-top: 1%;
+  padding-bottom: 2%;
 `;
 
 const Wrapper = styled.div`
-  /* padding-top: 2%; */
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;

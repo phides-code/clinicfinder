@@ -14,30 +14,30 @@ const { v4: uuidv4 } = require("uuid");
 
 // handlers functions here
 /////////////////
-const getReservations = async (req, res) => {
-  // const client = new MongoClient (MONGO_URI, options);
-  // await client.connect();
-  // const db = client.db("healthdb");
-  console.log("running getReservations...");
 
-  try {
-    res.status(200).json({
-      status: 200,
-      message: "ok",
-    });
-  } catch (err) {
-    console.log(`getReservations error: `);
-    console.log(err);
-  }
-  // client.close();
-  // console.log("disconnected from db");
+// const getReservations = async (req, res) => {
+//   // const client = new MongoClient (MONGO_URI, options);
+//   // await client.connect();
+//   // const db = client.db("healthdb");
+//   console.log("running getReservations...");
+
+//   try {
+//     res.status(200).json({
+//       status: 200,
+//       message: "ok",
+//     });
+//   } catch (err) {
+//     console.log(`getReservations error: `);
+//     console.log(err);
+//   }
+//   // client.close();
+//   // console.log("disconnected from db");
+// };
+
+const createUser = async (req, res) => {
+  console.log("running createUser...");
 };
 
 module.exports = {
-
-  getReservations,
-  // addReservations,
-  // getSingleReservation,
-  // deleteReservation,
-  // updateReservation,
+  createUser
 };

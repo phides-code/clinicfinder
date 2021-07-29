@@ -5,7 +5,7 @@ const Footer = () => {
 
   return (
     <Wrapper>
-      This is the Footer.
+      Healthcare-App © 2021
     </Wrapper>
   );
 };

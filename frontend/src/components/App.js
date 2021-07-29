@@ -46,11 +46,12 @@ const Wrapper = styled.div`
 	justify-content: space-between;
 	align-items: stretch;
 	align-content: stretch;
+
 `;
 
 const Main = styled.div`
   background-color: lightblue;
-  min-height: 80%;
+  min-height: 580px;
 `;
 
 export default App;

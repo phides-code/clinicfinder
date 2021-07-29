@@ -7,12 +7,8 @@ const cors = require('cors');
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const {
+  createUser
 
-  getReservations,
-  // addReservations,
-  // getSingleReservation,
-  // deleteReservation,
-  // updateReservation,
 } = require("./handlers");
 
 express()
@@ -31,12 +27,7 @@ express()
   // ---------------------------------
   // add new endpoints here 👇
 
-  .get('/api/reservations', getReservations)
-
-  // .post('/api/reservations/add', addReservations)
-  // .get('/api/reservations/:reservationId', getSingleReservation)
-  // .delete('/api/reservations/:reservationId', deleteReservation)
-  // .put('/api/reservations/:reservationId', updateReservation)
+  .post('/api/users/new', createUser)
 
   // add new endpoints here ☝️
   // ---------------------------------
