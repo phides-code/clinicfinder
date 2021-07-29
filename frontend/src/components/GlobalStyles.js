@@ -4,8 +4,8 @@ export default createGlobalStyle`
   *,
   *:before,
   *:after {
-      box-sizing: border-box;
-      -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
   }
 
   html, body, div,
@@ -42,6 +42,7 @@ export default createGlobalStyle`
       border: 0;
       font-size: 100%;
       vertical-align: baseline;
+      height: 100%;
   }
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure,
@@ -50,6 +51,11 @@ export default createGlobalStyle`
   }
   body {
       line-height: 1;
+
+      display: flex;
+  flex-direction: column;
+  /* min-height: 100%; */
+
   }
   ol, ul {
       list-style: none;

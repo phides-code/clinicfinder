@@ -4,10 +4,20 @@ import styled from "styled-components";
 const Footer = () => {
 
   return (
-    <div>
+    <Wrapper>
       This is the Footer.
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  padding-top: 2%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: stretch;
+	align-content: stretch;
+`;
 
 export default Footer;
