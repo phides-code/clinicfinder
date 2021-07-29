@@ -9,10 +9,10 @@ const bodyParser = require("body-parser");
 const {
 
   getReservations,
-  addReservations,
-  getSingleReservation,
-  deleteReservation,
-  updateReservation,
+  // addReservations,
+  // getSingleReservation,
+  // deleteReservation,
+  // updateReservation,
 } = require("./handlers");
 
 express()
