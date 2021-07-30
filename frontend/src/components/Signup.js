@@ -2,10 +2,6 @@ import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
-// ///
-// import sha256 from 'crypto-js/sha256';
-// import hmacSHA512 from 'crypto-js/hmac-sha512';
-// import Base64 from 'crypto-js/enc-base64';
 const CryptoJS = require("crypto-js");
 
 const Signup = () => {
@@ -36,10 +32,7 @@ const Signup = () => {
     ev.preventDefault();
     console.log(`running postNewUser...`);
 
-    // const hashedPassword = await bcrypt.hash(ev.target.password.value, 10);
     const hashedPassword = CryptoJS.AES.encrypt(ev.target.password.value, 'hello').toString();
-    // console.log(`hashedPassword: ${hashedPassword}`);
-    //hashedPassword: U2FsdGVkX1/tgQY1LLef9dZmhaeOeJwqNAbrPj68r1s=
 
     const newUserObj = {
       name: ev.target.name.value,
