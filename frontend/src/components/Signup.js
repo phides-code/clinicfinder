@@ -12,6 +12,7 @@ const Signup = () => {
   } = useContext(UserContext);
 
   useEffect(() => {
+    // adding a script and stylesheet for password complexity verification
     const script = document.createElement('script');
     script.src = "./validatepassword.js";
     script.async = true;
@@ -59,7 +60,7 @@ const Signup = () => {
         if (data.status === 201) {
           localStorage.setItem("healthUser", data.newUser._id);
           setCurrentUser(data.newUser);
-          history.push("/");
+          history.push("/welcome");
         } else {
           window.alert(`got unexpected status:
             ${data.status}: ${data.message}`);
@@ -151,6 +152,5 @@ const Signup = () => {
 const PasswordValidation = styled.div`
   display: none;
 `;
-
 
 export default Signup;

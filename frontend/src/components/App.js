@@ -8,6 +8,7 @@ import MyPage from "./MyPage";
 import Footer from "./Footer";
 import Login from "./Login";
 import Signup from "./Signup";
+import Welcome from "./Welcome";
 
 const App = () => {
 
@@ -31,6 +32,9 @@ const App = () => {
             </Route>
             <Route exact path="/signup">
               <Signup />
+            </Route>
+            <Route exact path="/welcome">
+              <Welcome />
             </Route>
             <Route path="">404: Oops!</Route>
           </Switch>

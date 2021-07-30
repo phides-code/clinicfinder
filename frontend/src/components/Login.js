@@ -60,11 +60,18 @@ const Login = () => {
       <h1>Login page</h1>
       <div>
         <form onSubmit={userLogin}>
-          <label>Patient ID</label>
-          <input name="patientId" required></input>
-          <label>Password</label>
-          <input type="password" name="password" required></input>
-          <input type="submit" value="Login"/>
+          <div>
+            <label>Patient or Clinician ID: </label>
+            <input name="patientId" required></input>
+          </div>
+          <div>
+            <label>Password: </label>
+            <input type="password" name="password" required></input>
+          </div>
+          <div>
+            <input type="submit" value="Login"/>
+          </div>
+          
           {
             invalidUser && <div>*** Invalid Login ***</div>
           }
