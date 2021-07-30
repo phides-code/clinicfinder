@@ -36,6 +36,31 @@ const { v4: uuidv4 } = require("uuid");
 
 const createUser = async (req, res) => {
   console.log("running createUser...");
+  // generating 8-character long random ID, attaching to req.body
+  const newUser = {
+    ...{ _id: Math.floor(Math.random() * (99999999 - 10000000) + 10000000).toString() }, 
+    ...req.body
+  };
+
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+      const result = await db.collection("users").insertOne(newUser);
+      if (result) {
+        res.status(201).json({ status: 201, message: "ok", newUser: newUser })
+      } else {
+        res.status(404).json({ status: 404, message: "error inserting user", newUser: "error" });
+      }  
+  } catch (err) {
+      console.log(`createUser caught an error: `);
+      console.log(err);
+      res.status(404).json({ status: 404, message: err, newUser: "error" });
+  }
+  client.close();
+  console.log("disconnected from db");
 };
 
 module.exports = {

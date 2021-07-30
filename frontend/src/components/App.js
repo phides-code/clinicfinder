@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
@@ -10,6 +10,8 @@ import Login from "./Login";
 import Signup from "./Signup";
 
 const App = () => {
+
+  // useEffect
 
   return (
     <Wrapper>
