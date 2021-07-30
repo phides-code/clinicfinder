@@ -2,6 +2,11 @@ import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
+// ///
+// import sha256 from 'crypto-js/sha256';
+// import hmacSHA512 from 'crypto-js/hmac-sha512';
+// import Base64 from 'crypto-js/enc-base64';
+const CryptoJS = require("crypto-js");
 
 const Signup = () => {
   const history = useHistory();
@@ -22,17 +27,20 @@ const Signup = () => {
     linkElement.setAttribute("href", "validatepassword.css");
     document.getElementsByTagName("head")[0].appendChild(linkElement);
     
-  
     return () => {
       document.body.removeChild(script);
-    
     }
   }, []);
-  
 
-  const postNewUser = (ev) => {
+  const postNewUser = async (ev) => {
     ev.preventDefault();
     console.log(`running postNewUser...`);
+
+    // const hashedPassword = await bcrypt.hash(ev.target.password.value, 10);
+    const hashedPassword = CryptoJS.AES.encrypt(ev.target.password.value, 'hello').toString();
+    // console.log(`hashedPassword: ${hashedPassword}`);
+    //hashedPassword: U2FsdGVkX1/tgQY1LLef9dZmhaeOeJwqNAbrPj68r1s=
+
     const newUserObj = {
       name: ev.target.name.value,
       email: ev.target.email.value,
@@ -43,7 +51,7 @@ const Signup = () => {
       postalcode: ev.target.postalcode.value,
       country: ev.target.country.value,
       userType: ev.target.userType.value,
-      // hashed password here
+      password: hashedPassword
     };
 
     (async () => {
@@ -56,9 +64,8 @@ const Signup = () => {
         const data = await res.json();
 
         if (data.status === 201) {
-          // localStorage.setItem("healthuser", JSON.stringify(data.newUser));
+          localStorage.setItem("healthUser", data.newUser._id);
           setCurrentUser(data.newUser);
-          // console.log(`got user id: ${data.newUser._id}`);
           history.push("/");
         } else {
           window.alert(`got unexpected status:
@@ -118,7 +125,6 @@ const Signup = () => {
             <input type="radio" name="userType" value="clinician" id="clinician"></input>
             <label htmlFor="clinician">Clinician</label>
           </div>
-
 
           <div>
             <label htmlFor="password">Password</label>

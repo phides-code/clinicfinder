@@ -7,8 +7,8 @@ const cors = require('cors');
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const {
-  createUser
-
+  createUser,
+  verifyUser
 } = require("./handlers");
 
 express()
@@ -28,6 +28,7 @@ express()
   // add new endpoints here 👇
 
   .post('/api/users/new', createUser)
+  .post('/api/users/verify', verifyUser)
   
   // add new endpoints here ☝️
   // ---------------------------------

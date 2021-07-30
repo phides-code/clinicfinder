@@ -18,10 +18,10 @@ const Header = () => {
       <HeaderSection>
         {
           currentUser ?
-            <>Welcome, {currentUser.name}.<Link
+            <>Welcome, {currentUser.name}.<Link to="/"
               onClick={() => {
                 setCurrentUser(null);
-                history.push("/");
+                localStorage.removeItem("healthUser");
               }}>Logout</Link></> :
             <><Link to="/login">Log in</Link> or <Link to="/signup">Sign up</Link></>
         }

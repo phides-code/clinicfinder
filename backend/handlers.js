@@ -1,12 +1,14 @@
 "use strict";
 const assert = require('assert');
+const { resolveSoa } = require('dns');
+const CryptoJS = require("crypto-js");
+
 require("dotenv").config();
 
 /// mongo stuff //////////////////////////////////////////////////////////////
 const { MongoClient } = require("mongodb");
 const { MONGO_URI } = process.env;
 const options = { useNewUrlParser: true, useUnifiedTopology: true };
-
 ////////////////////////////////////////////////////////////////////////////
 
 // use this package to generate unique ids: https://www.npmjs.com/package/uuid
@@ -14,26 +16,6 @@ const { v4: uuidv4 } = require("uuid");
 
 // handlers functions here
 /////////////////
-
-// const getReservations = async (req, res) => {
-//   // const client = new MongoClient (MONGO_URI, options);
-//   // await client.connect();
-//   // const db = client.db("healthdb");
-//   console.log("running getReservations...");
-
-//   try {
-//     res.status(200).json({
-//       status: 200,
-//       message: "ok",
-//     });
-//   } catch (err) {
-//     console.log(`getReservations error: `);
-//     console.log(err);
-//   }
-//   // client.close();
-//   // console.log("disconnected from db");
-// };
-
 const createUser = async (req, res) => {
   console.log("running createUser...");
   // generating 8-character long random ID, attaching to req.body
@@ -63,6 +45,47 @@ const createUser = async (req, res) => {
   console.log("disconnected from db");
 };
 
+const verifyUser = async (req, res) => {
+  console.log(`verifying patientId: ${req.body.patientId}`);
+  
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const result = await db.collection("users").findOne({ _id: req.body.patientId });
+    if (result) {
+
+      if ( CryptoJS.AES.decrypt(result.password, 'hello').toString(CryptoJS.enc.Utf8) ===
+        CryptoJS.AES.decrypt(req.body.password, 'hello').toString(CryptoJS.enc.Utf8) ) {
+        // is the password ok?
+        // yes, return the user (minus pw)
+        res.status(200).json({ 
+          status: 200, message: "ok", 
+          // omitting password from return obj
+          user: (({ password, ...userData }) => userData)(result) 
+        });
+      } else {
+        // no, return 403
+        res.status(403).json({ status: 403, message: "invalid login", user: "invalid login" })
+      }
+
+    } else {
+      res.status(403).json({ status: 403, message: "invalid login", user: "invalid login" });
+    }  
+
+  } catch (err) {
+    console.log(`verifyUser caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: err, user: "verifyUser error" });
+  }
+
+  client.close();
+  console.log("disconnected from db");
+};
+
 module.exports = {
-  createUser
+  createUser,
+  verifyUser
 };

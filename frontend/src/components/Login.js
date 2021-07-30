@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
+const CryptoJS = require("crypto-js");
 
 const Login = () => {
 
@@ -14,17 +15,44 @@ const Login = () => {
 
   const userLogin = async (ev) => {
     ev.preventDefault();
-    console.log(`got patientId: ${ev.target.patientId.value}`);
-    if (ev.target.patientId.value !== "123") {
-      setInvalidUser(true);
+    console.log(`verifying patientId: ${ev.target.patientId.value}`);
+    const hashedPassword = CryptoJS.AES.encrypt(ev.target.password.value, 'hello').toString();
 
-    } else {
-      setCurrentUser("123");
-      localStorage.setItem("healthUser", "ev.target.patientId.value");
-      //localStorage.setItem("newOrder", JSON.stringify(data.newOrder));
-      history.push("/");
+    try {
+      const res = await fetch ("/api/users/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patientId: ev.target.patientId.value, 
+          password: hashedPassword
+        })
+      });
+      const data = await res.json();
+
+      if (data.status === 200) {
+        // valid login
+        console.log("valid login");
+        setCurrentUser(data.user);
+        localStorage.setItem("healthUser", "ev.target.patientId.value");
+
+        history.push("/");      
+      } else if (data.status === 403){
+        // invalid user
+        console.log("invalid login");
+        setInvalidUser(true);
+        ev.target.patientId.value = "";
+        ev.target.password.value = "";
+
+      } else {
+        window.alert(`got unexpected status:
+        ${data.status}: ${data.message}`);
+      }
+
+    } catch (err) {
+      console.log(`userLogin caught an error:`);
+      console.log(err);
+      window.alert(`userLogin caught an error...`);
     }
-
   };
 
   return (
@@ -33,10 +61,12 @@ const Login = () => {
       <div>
         <form onSubmit={userLogin}>
           <label>Patient ID</label>
-          <input name="patientId"></input>
+          <input name="patientId" required></input>
+          <label>Password</label>
+          <input type="password" name="password" required></input>
           <input type="submit" value="Login"/>
           {
-            invalidUser && <div>*** invalid patient ID ***</div>
+            invalidUser && <div>*** Invalid Login ***</div>
           }
         </form>
       </div>
