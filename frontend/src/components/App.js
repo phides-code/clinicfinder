@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
@@ -9,10 +9,75 @@ import Footer from "./Footer";
 import Login from "./Login";
 import Signup from "./Signup";
 import Welcome from "./Welcome";
+import { UserContext } from "./UserContext";
+import { useHistory } from "react-router";
 
 const App = () => {
+  const {
+    currentUser,
+    setCurrentUser
+  } = useContext(UserContext);
+  const history = useHistory();
 
-  // useEffect
+  let localUser;
+  let localHash;
+
+  // when the user id and hashed password are in localStorage,
+  // but the currentUser state is lost,
+  // App will try to login the user automatically
+  useEffect(() => {
+    localUser = localStorage.getItem("healthUser");
+    if (localUser && !currentUser ) {
+      // log the user in
+      console.log(`Lost state... login this user automatically`);
+      localHash = localStorage.getItem("healthUserHash");
+      userLogin();
+    }
+  }, []);
+
+  const userLogin = async () => {
+    console.log(`App.js verifying patientId: ${localUser}`);
+
+    try {
+      const res = await fetch ("/api/users/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patientId: localUser, 
+          password: localHash
+        })
+      });
+      const data = await res.json();
+
+      if (data.status === 200) {
+        // valid login
+        console.log("valid login");
+        setCurrentUser(data.user);
+
+      } else if (data.status === 403){
+        // invalid login
+        console.log("invalid login");
+        window.alert("invalid login");
+        setCurrentUser(null);
+        localStorage.removeItem("healthUser");
+        localStorage.removeItem("healthHash");
+        history.push("/login");
+
+      } else {
+        window.alert(`got unexpected status:
+        ${data.status}: ${data.message}`);
+        setCurrentUser(null);
+        localStorage.removeItem("healthUser");
+        localStorage.removeItem("healthHash");
+        history.push("/login");
+      }
+
+    } catch (err) {
+      console.log(`App.js userLogin caught an error:`);
+      console.log(err);
+      window.alert(`App.js userLogin caught an error...`);
+    }
+  };
 
   return (
     <Wrapper>

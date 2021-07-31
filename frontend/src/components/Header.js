@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
@@ -18,11 +18,14 @@ const Header = () => {
       <HeaderSection>
         {
           currentUser ?
-            <>Welcome, {currentUser.name}.<Link to="/"
+            <>Welcome, {currentUser.name}. <Link to="/"
               onClick={() => {
                 setCurrentUser(null);
                 localStorage.removeItem("healthUser");
-              }}>Logout</Link></> :
+                localStorage.removeItem("healthHash");
+                console.log(`Logging out`);
+
+              }}>(Logout)</Link></> :
             <><Link to="/login">Log in</Link> or <Link to="/signup">Sign up</Link></>
         }
       </HeaderSection>

@@ -5,6 +5,8 @@ export const UserContext = createContext(null);
 export const UserProvider = ({children}) => {
 
   const [currentUser, setCurrentUser] = useState(null);
+  const [invalidUser, setInvalidUser] = useState(null);
+
   // const [validUsername, setValidUsername] = useState(true);
   // const [allUsers, setAllUsers] = useState([]);
 

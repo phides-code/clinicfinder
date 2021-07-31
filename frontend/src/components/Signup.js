@@ -12,7 +12,13 @@ const Signup = () => {
   } = useContext(UserContext);
 
   useEffect(() => {
-    // adding a script and stylesheet for password complexity verification
+    const checkLocalUser = localStorage.getItem("healthUser");
+    if (checkLocalUser) {
+      console.log(`checkLocalUser yes, redirecting...`);
+      history.push("/");
+    }
+
+    // adding a script and stylesheet for password complexity verification widget
     const script = document.createElement('script');
     script.src = "./validatepassword.js";
     script.async = true;
@@ -59,6 +65,7 @@ const Signup = () => {
 
         if (data.status === 201) {
           localStorage.setItem("healthUser", data.newUser._id);
+          localStorage.setItem("healthUserHash", hashedPassword);
           setCurrentUser(data.newUser);
           history.push("/welcome");
         } else {

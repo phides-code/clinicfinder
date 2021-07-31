@@ -10,7 +10,17 @@ const Welcome = () => {
     currentUser,
     setCurrentUser
   } = useContext(UserContext);
+
+  useEffect(() => {
+    const checkLocalUser = localStorage.getItem("healthUser");
+    if (!checkLocalUser || !currentUser) {
+      console.log(`no logged in user found, redirecting...`);
+      history.push("/login");
+    }
+  }, []);
+
   return (
+    currentUser &&
     <div>
       <div><h1>Welcome to the Healthcare-App, {
         currentUser.name.substr(0,currentUser.name.indexOf(' '))

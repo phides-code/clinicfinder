@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
@@ -10,8 +10,16 @@ const Login = () => {
   const history = useHistory();
   const {
     currentUser,
-    setCurrentUser
+    setCurrentUser,
   } = useContext(UserContext);
+
+  useEffect(() => {
+    const checkLocalUser = localStorage.getItem("healthUser");
+    if (checkLocalUser) {
+      console.log(`checkLocalUser yes, redirecting...`);
+      history.push("/");
+    }
+  }, []);
 
   const userLogin = async (ev) => {
     ev.preventDefault();
@@ -33,11 +41,12 @@ const Login = () => {
         // valid login
         console.log("valid login");
         setCurrentUser(data.user);
-        localStorage.setItem("healthUser", "ev.target.patientId.value");
+        localStorage.setItem("healthUser", ev.target.patientId.value);
+        localStorage.setItem("healthUserHash", hashedPassword);
 
         history.push("/");      
       } else if (data.status === 403){
-        // invalid user
+        // invalid login
         console.log("invalid login");
         setInvalidUser(true);
         ev.target.patientId.value = "";
