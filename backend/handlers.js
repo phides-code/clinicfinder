@@ -15,7 +15,7 @@ const options = { useNewUrlParser: true, useUnifiedTopology: true };
 const { v4: uuidv4 } = require("uuid");
 
 // handlers functions here
-/////////////////
+/////////////////////////////////////////////////////////////////////////
 const createUser = async (req, res) => {
   console.log("running createUser...");
   // generating 8-character long random ID, attaching to req.body
@@ -44,7 +44,7 @@ const createUser = async (req, res) => {
   client.close();
   console.log("disconnected from db");
 };
-
+//////////////////////////////////////////////////////////////////////////
 const verifyUser = async (req, res) => {
   console.log(`verifying patientId: ${req.body.patientId}`);
   
@@ -84,8 +84,41 @@ const verifyUser = async (req, res) => {
   client.close();
   console.log("disconnected from db");
 };
+//////////////////////////////////////////////////////////////////////////
+const userProfile = async (req, res) => {
+  console.log(`looking up profile id: ${req.params.id}`);
+  
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+
+  const result = await db.collection("users").findOne({ _id: req.params.id });
+  if (result) {
+
+    res.status(200).json({ 
+      status: 200, message: "ok", 
+      // omitting password from return obj
+      profile: (({ password, ...userData }) => userData)(result) 
+    });
+    
+  } else {
+    res.status(404).json({ status: 404, message: "profile not found", user: "profile not found" });
+  }  
+
+  } catch (err) {
+    console.log(`userProfile caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: err, profile: "userProfile error" });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
 
 module.exports = {
   createUser,
-  verifyUser
+  verifyUser,
+  userProfile
 };

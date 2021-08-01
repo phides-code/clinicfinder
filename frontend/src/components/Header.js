@@ -18,15 +18,25 @@ const Header = () => {
       <HeaderSection>
         {
           currentUser ?
-            <>Welcome, {currentUser.name}. <Link to="/"
-              onClick={() => {
-                setCurrentUser(null);
-                localStorage.removeItem("healthUser");
-                localStorage.removeItem("healthHash");
-                console.log(`Logging out`);
+            <>
+              Welcome, {` `} 
+              <Link to={`/profile/${currentUser._id}`}>
+                {currentUser.name}
+              </Link>.{` `}
+            
+              ( <Link to="/"
+                onClick={() => {
+                  setCurrentUser(null);
+                  localStorage.removeItem("healthUser");
+                  localStorage.removeItem("healthHash");
+                  console.log(`Logging out`);
 
-              }}>(Logout)</Link></> :
-            <><Link to="/login">Log in</Link> or <Link to="/signup">Sign up</Link></>
+                }}>Logout</Link> )
+            </> :
+            <>
+              <Link to="/login">Log in</Link> or 
+              <Link to="/signup">Sign up</Link>
+            </>
         }
       </HeaderSection>
     </Wrapper>

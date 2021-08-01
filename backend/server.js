@@ -8,7 +8,8 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const {
   createUser,
-  verifyUser
+  verifyUser,
+  userProfile
 } = require("./handlers");
 
 express()
@@ -29,6 +30,7 @@ express()
 
   .post('/api/users/new', createUser)
   .post('/api/users/verify', verifyUser)
+  .get('/api/profile/:id', userProfile)
   
   // add new endpoints here ☝️
   // ---------------------------------
