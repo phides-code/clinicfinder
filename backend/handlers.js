@@ -85,33 +85,95 @@ const verifyUser = async (req, res) => {
   console.log("disconnected from db");
 };
 //////////////////////////////////////////////////////////////////////////
-const userProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
   console.log(`looking up profile id: ${req.params.id}`);
+  console.log(`requesting id: ${req.body.requestingId}`);
   
   const client = new MongoClient (MONGO_URI, options);
   await client.connect();
   const db = client.db("healthdb");
   console.log("connected to db");
 
+  if ( req.body.requestingId !== req.params.id ) { 
+    // if user not requesting their own profile, check if usertype !== "clinician"
+    const result = await db.collection("users").findOne(
+      { _id: req.body.requestingId }, 
+      { projection: { userType: 1 } }
+    );
+
+    if ( result.userType !== "clinician" ) {
+      // if not a clinician, refuse request
+      client.close();
+      console.log("disconnected from db");
+      res.status(403).json({ 
+        status: 403, message: "unauthorized", 
+        profile: "unauthorized" 
+      });
+      return;
+    }
+  } 
+  // otherwise, retrieve the profile from DB
   try {
+    const result = await db.collection("users").findOne(
+      { _id: req.params.id }, 
+      { projection: { password: 0 } } // omitting password from return obj
+    );
 
-  const result = await db.collection("users").findOne({ _id: req.params.id });
-  if (result) {
-
-    res.status(200).json({ 
-      status: 200, message: "ok", 
-      // omitting password from return obj
-      profile: (({ password, ...userData }) => userData)(result) 
-    });
-    
-  } else {
-    res.status(404).json({ status: 404, message: "profile not found", user: "profile not found" });
-  }  
+    if (result) {
+      res.status(200).json({ 
+        status: 200, message: "ok", 
+        profile: result
+      });
+      
+    } else {
+      res.status(404).json({ status: 404, message: "profile not found", user: "profile not found" });
+    }
 
   } catch (err) {
-    console.log(`userProfile caught an error: `);
+    console.log(`getUserProfile caught an error: `);
     console.log(err);
-    res.status(404).json({ status: 404, message: err, profile: "userProfile error" });
+    res.status(404).json({ status: 404, message: err, profile: "getUserProfile error" });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+//////////////////////////////////////////////////////////////////////
+const getAllUsers = async (req, res) => {
+  console.log(`retrieving all users`);
+
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const results = await db.collection("users").find({}).toArray();
+    
+    console.log(`got results: `);
+    console.log(results);
+
+    if (results) {
+      // stripping passwords from the results
+      const resultsNoPasswords = results.map(result => {
+        return (({ password, ...userData }) => userData)(result)
+      })
+
+      res.status(200).json({
+        status: 200, message: "ok",
+        users: resultsNoPasswords
+      });
+    } else {
+      console.log(`getAllUsers error getting users`);
+      res.status(404).json({ status: 404, message: err, 
+        users: "getAllUsers error getting users" 
+      });
+    }
+  } catch (err) {
+    console.log(`getAllUsers caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: err, 
+      users: "getAllUsers error" 
+    });
   }
   client.close();
   console.log("disconnected from db");
@@ -120,5 +182,6 @@ const userProfile = async (req, res) => {
 module.exports = {
   createUser,
   verifyUser,
-  userProfile
+  getUserProfile, 
+  getAllUsers
 };

@@ -9,7 +9,8 @@ const bodyParser = require("body-parser");
 const {
   createUser,
   verifyUser,
-  userProfile
+  getUserProfile,
+  getAllUsers
 } = require("./handlers");
 
 express()
@@ -30,7 +31,8 @@ express()
 
   .post('/api/users/new', createUser)
   .post('/api/users/verify', verifyUser)
-  .get('/api/profile/:id', userProfile)
+  .post('/api/profile/:id', getUserProfile)
+  .get('/api/users', getAllUsers)
   
   // add new endpoints here ☝️
   // ---------------------------------

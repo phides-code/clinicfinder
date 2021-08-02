@@ -4,7 +4,6 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
 import Header from "./Header";
 import Home from "./Home";
-import MyPage from "./MyPage";
 import Footer from "./Footer";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -89,9 +88,6 @@ const App = () => {
           <Switch>
             <Route exact path="/">
               <Home/>
-            </Route>
-            <Route exact path="/mypage">
-              <MyPage />
             </Route>
             <Route exact path="/login">
               <Login />
