@@ -11,7 +11,7 @@ import Welcome from "./Welcome";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
 import Profile from "./Profile";
-import Data from "./Data";
+import FindAProvider from "./FindAProvider";
 
 const App = () => {
   const {
@@ -102,8 +102,8 @@ const App = () => {
             <Route exact path="/profile/:id">
               <Profile />
             </Route>
-            <Route exact path="/data">
-              <Data />
+            <Route exact path="/findaprovider">
+              <FindAProvider />
             </Route>
             <Route path="">404: Oops!</Route>
           </Switch>

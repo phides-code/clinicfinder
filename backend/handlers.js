@@ -2,16 +2,17 @@
 const assert = require('assert');
 const { resolveSoa } = require('dns');
 const CryptoJS = require("crypto-js");
-
 require("dotenv").config();
-
+/// request-promise stuff //////////////////////////////////////////////////////
+const request = require('request-promise');
+const { YELP_TOKEN } = process.env;
+const YelpApiHeader = { "Authorization": `Bearer ${YELP_TOKEN}`};
+//////////////////////////////////////////////////////////////////////////////
 /// mongo stuff //////////////////////////////////////////////////////////////
 const { MongoClient } = require("mongodb");
 const { MONGO_URI } = process.env;
 const options = { useNewUrlParser: true, useUnifiedTopology: true };
 ////////////////////////////////////////////////////////////////////////////
-
-// use this package to generate unique ids: https://www.npmjs.com/package/uuid
 const { v4: uuidv4 } = require("uuid");
 
 // handlers functions here
@@ -179,9 +180,79 @@ const getAllUsers = async (req, res) => {
   console.log("disconnected from db");
 };
 
+const getAllCategories = async (req, res) => {
+  try {
+    const allCategories = await request({
+      uri: 'https://api.yelp.com/v3/categories',
+      headers: YelpApiHeader,
+      json: true // Automatically parses the JSON string in the response
+    });
+    console.log(`got allCategories.categories array length: ${allCategories.categories.length}`);
+
+    const allHealthCategories = allCategories.categories.filter(
+      category => category.parent_aliases[0] === "health"
+    ).map(category => {
+        // return category.title;
+        return {
+          title: category.title,
+          alias: category.alias
+        };
+    });
+
+    if (allHealthCategories.length !== 0 ) {
+      res.status(200).json({
+        status: 200, message: "ok",
+        categories: allHealthCategories
+      });
+    } else {
+      res.status(404).json({
+        status: 404, message: "getAllCategories got an error", 
+        categories: "getAllCategories got an error"
+      });
+    }
+  } catch (err) {
+    console.log('error retrieving categories: ');
+    console.log(err);
+  }
+};
+
+const getProvidersForCategory = async (req, res) => {
+  console.log(`got req.body.category: ${req.body.category}`);
+  console.log(`got req.body.postalcode: ${req.body.postalcode}`);
+  try {
+    const providers = await request({
+      // https://api.yelp.com/v3/businesses/search?categories=acupuncture&location=H2S1Y3
+      uri: `https://api.yelp.com/v3/businesses/search?categories=${req.body.category}&location=${req.body.postalcode}`,
+      headers: YelpApiHeader,
+      json: true // Automatically parses the JSON string in the response
+    });
+
+    console.log(`got providers.businesses array length: ${providers.businesses.length}`);
+
+    if (providers.businesses.length !== 0) {
+      res.status(200).json({
+        status: 200, message: "ok",
+        providers: providers.businesses
+      });
+    } else {
+      res.status(404).json({
+        status: 404, message: "getProvidersForCategory got an error", 
+        categories: "none found"
+      });
+    }
+  } catch (err) {
+    res.status(404).json({
+      status: 404, message: err.message, 
+      categories: "getProvidersForCategory got an error"
+    });
+  }
+};
+
 module.exports = {
   createUser,
   verifyUser,
   getUserProfile, 
-  getAllUsers
+  getAllUsers,
+  getAllCategories,
+  getProvidersForCategory
 };

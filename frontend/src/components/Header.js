@@ -19,13 +19,12 @@ const Header = () => {
         {
           currentUser ?
             <>
-              <HeaderSection><Link to="/data">Click here for Data</Link></HeaderSection>
+              <HeaderSection><Link to="/findaprovider">Click here to find a provider</Link></HeaderSection>
               <HeaderSection>
                 Welcome, {` `} 
                 <Link to={`/profile/${currentUser._id}`}>
                   {currentUser.name}
                 </Link>.{` `}
-              
             
                 ( <Link to="/"
                   onClick={() => {
