@@ -16,7 +16,6 @@ const Profile = () => {
     (async () => {
 
         try {
-          console.log(`****retrieving profile *** `);
           const res = await fetch(`/api/profile/${id}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -42,10 +41,6 @@ const Profile = () => {
           console.log(`error fetching profile`);
           window.alert(`error fetching profile`);
         }
-      // } else {
-      //   console.log(`unauthorized to view profile`);
-      //   history.push("/");
-      // }
     })();
   }, []);
 

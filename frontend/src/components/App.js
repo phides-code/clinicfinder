@@ -11,6 +11,7 @@ import Welcome from "./Welcome";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
 import Profile from "./Profile";
+import Data from "./Data";
 
 const App = () => {
   const {
@@ -100,6 +101,9 @@ const App = () => {
             </Route>
             <Route exact path="/profile/:id">
               <Profile />
+            </Route>
+            <Route exact path="/data">
+              <Data />
             </Route>
             <Route path="">404: Oops!</Route>
           </Switch>

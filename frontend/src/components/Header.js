@@ -15,30 +15,36 @@ const Header = () => {
     <Wrapper>
       <HeaderSection><Link to="/">Healthcare-App</Link></HeaderSection>
       {/* <HeaderSection>Welcome</HeaderSection> */}
-      <HeaderSection>
+      {/* <HeaderSection> */}
         {
           currentUser ?
             <>
-              Welcome, {` `} 
-              <Link to={`/profile/${currentUser._id}`}>
-                {currentUser.name}
-              </Link>.{` `}
+              <HeaderSection><Link to="/data">Click here for Data</Link></HeaderSection>
+              <HeaderSection>
+                Welcome, {` `} 
+                <Link to={`/profile/${currentUser._id}`}>
+                  {currentUser.name}
+                </Link>.{` `}
+              
             
-              ( <Link to="/"
-                onClick={() => {
-                  setCurrentUser(null);
-                  localStorage.removeItem("healthUser");
-                  localStorage.removeItem("healthHash");
-                  console.log(`Logging out`);
+                ( <Link to="/"
+                  onClick={() => {
+                    setCurrentUser(null);
+                    localStorage.removeItem("healthUser");
+                    localStorage.removeItem("healthHash");
+                    console.log(`Logging out`);
 
-                }}>Logout</Link> )
+                  }}>Logout</Link> )
+              </HeaderSection>
             </> :
             <>
-              <Link to="/login">Log in</Link> or 
-              <Link to="/signup">Sign up</Link>
+              <HeaderSection>
+                <Link to="/login">Log in</Link> or 
+                <Link to="/signup">Sign up</Link>
+              </HeaderSection>
             </>
         }
-      </HeaderSection>
+      {/* </HeaderSection> */}
     </Wrapper>
   );
 };
