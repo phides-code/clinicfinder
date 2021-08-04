@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "./UserContext";
+import { Link } from "react-router-dom";
 
 const FindAProvider = () => {
 
@@ -75,12 +76,14 @@ const FindAProvider = () => {
               {
                 providers.map((provider, i) => {
                   return (
-                    <div key={i}>
-                      <hr/>
-                      <div>{provider.alias}</div>
-                      <div>{provider.name}</div>
-                      <div>{provider.display_phone}</div>
-                    </div>
+                    <Link to={`/clinicdetail/${provider.id}`} key={i}>
+                      <div>
+                        <hr/>
+                        <div>{provider.alias}</div>
+                        <div>{provider.name}</div>
+                        <div>{provider.display_phone}</div>
+                      </div>
+                    </Link>
                   );
                 })
               }

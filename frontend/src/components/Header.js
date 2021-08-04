@@ -38,10 +38,9 @@ const Header = () => {
             </> :
             <>
               <HeaderSection>
-                <div>Patients: <Link to="/login">Log in</Link> or 
-                <Link to="/signup">Sign up</Link></div>
-                <div>Clinicians: <Link to="/clinicianlogin">Log in</Link> or 
-                <Link to="/cliniciansignup">Sign up</Link></div>
+                <div><Link to="/login">Log in</Link></div>
+                <div><Link to="/signup">Sign up as a Patient</Link></div>
+                <div><Link to="/cliniciansignup">Sign up as a Clinician</Link></div>
               </HeaderSection>
             </>
         }

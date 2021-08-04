@@ -54,7 +54,7 @@ const Profile = () => {
       <div>{profile.email}</div>
       <div>{profile.phone}</div>
     </div> :
-    <div>error retrieving profile</div>
+    <div>unable to display profile</div>
   );
 };
 

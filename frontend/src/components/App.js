@@ -14,6 +14,7 @@ import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
 import Profile from "./Profile";
 import FindAProvider from "./FindAProvider";
+import ClinicDetail from "./ClinicDetail";
 
 const App = () => {
   const {
@@ -100,11 +101,12 @@ const App = () => {
               <Signup />
             </Route>
 
-            {/* <Route exact path="/clinicianlogin">
-              <ClinicianLogin />
-            </Route> */}
             <Route exact path="/cliniciansignup">
               <ClinicianSignup />
+            </Route>
+
+            <Route exact path="/clinicdetail/:clinicId">
+              <ClinicDetail />
             </Route>
 
             <Route exact path="/welcome">
