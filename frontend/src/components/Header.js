@@ -38,8 +38,10 @@ const Header = () => {
             </> :
             <>
               <HeaderSection>
-                <Link to="/login">Log in</Link> or 
-                <Link to="/signup">Sign up</Link>
+                <div>Patients: <Link to="/login">Log in</Link> or 
+                <Link to="/signup">Sign up</Link></div>
+                <div>Clinicians: <Link to="/clinicianlogin">Log in</Link> or 
+                <Link to="/cliniciansignup">Sign up</Link></div>
               </HeaderSection>
             </>
         }

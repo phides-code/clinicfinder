@@ -13,7 +13,8 @@ const {
   getUserProfile,
   getAllUsers,
   getAllCategories,
-  getProvidersForCategory
+  getProvidersForCategory,
+  getProviderById
 } = require("./handlers");
 
 express()
@@ -38,6 +39,7 @@ express()
   .get('/api/users', getAllUsers)
   .get('/api/categories', getAllCategories)
   .post('/api/providers', getProvidersForCategory)
+  .get('/api/provider/:id', getProviderById)
   
   // add new endpoints here ☝️
   // ---------------------------------

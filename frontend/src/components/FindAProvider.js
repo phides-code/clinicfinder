@@ -49,6 +49,7 @@ const FindAProvider = () => {
 
       } catch (err) {
         console.log(`caught error fetching providers`);
+        setProviders("none found");
         // window.alert(`error fetching providers`);
 
       }
@@ -75,10 +76,10 @@ const FindAProvider = () => {
                 providers.map((provider, i) => {
                   return (
                     <div key={i}>
+                      <hr/>
                       <div>{provider.alias}</div>
                       <div>{provider.name}</div>
                       <div>{provider.display_phone}</div>
-                      <hr/>
                     </div>
                   );
                 })

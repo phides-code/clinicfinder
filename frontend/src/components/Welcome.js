@@ -27,6 +27,12 @@ const Welcome = () => {
       }!</h1></div>
       <div>Your {currentUser.userType} ID is: <h2>{currentUser._id}</h2></div>
       <div>Use it to login in the future.</div>
+      {currentUser.userType === "clinician" && 
+        <div>
+          You are registered with <strong>{currentUser.clinicName}</strong>
+        </div>
+      }
+      
       <div><Link to="/">Click here</Link> to go to the home page.</div>
     </div>
   );

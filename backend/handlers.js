@@ -243,7 +243,37 @@ const getProvidersForCategory = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 404, message: err.message, 
-      categories: "getProvidersForCategory got an error"
+      categories: "getProvidersForCategory caught an error"
+    });
+  }
+};
+
+const getProviderById = async (req, res) => {
+  console.log(`got id: ${req.params.id}`);
+
+  try {
+    const provider = await request({
+      uri: `https://api.yelp.com/v3/businesses/${req.params.id}`,
+      headers: YelpApiHeader,
+      json: true // Automatically parses the JSON string in the response
+    });
+
+    if (provider["error"]) {
+      res.status(404).json({
+        status: 404, message: "provider ID not found",
+        provider: "error"
+      });
+    } else {
+      res.status(200).json({
+        status: 200, message: "ok",
+        provider: provider
+      });
+    }
+
+  } catch (err) {
+    res.status(404).json({
+      status: 404, message: err.message,
+      provider: "caught error - provider ID not found"
     });
   }
 };
@@ -254,5 +284,6 @@ module.exports = {
   getUserProfile, 
   getAllUsers,
   getAllCategories,
-  getProvidersForCategory
+  getProvidersForCategory,
+  getProviderById
 };

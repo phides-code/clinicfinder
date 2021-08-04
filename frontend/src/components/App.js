@@ -7,6 +7,8 @@ import Home from "./Home";
 import Footer from "./Footer";
 import Login from "./Login";
 import Signup from "./Signup";
+// import ClinicianLogin from "./ClinicianLogin";
+import ClinicianSignup from "./ClinicianSignup";
 import Welcome from "./Welcome";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
@@ -90,12 +92,21 @@ const App = () => {
             <Route exact path="/">
               <Home/>
             </Route>
+
             <Route exact path="/login">
               <Login />
             </Route>
             <Route exact path="/signup">
               <Signup />
             </Route>
+
+            {/* <Route exact path="/clinicianlogin">
+              <ClinicianLogin />
+            </Route> */}
+            <Route exact path="/cliniciansignup">
+              <ClinicianSignup />
+            </Route>
+
             <Route exact path="/welcome">
               <Welcome />
             </Route>
