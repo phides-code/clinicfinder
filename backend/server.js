@@ -14,7 +14,8 @@ const {
   getAllUsers,
   getAllCategories,
   getProvidersForCategory,
-  getProviderById
+  getProviderById,
+  postMessage
 } = require("./handlers");
 
 express()
@@ -40,6 +41,7 @@ express()
   .get('/api/categories', getAllCategories)
   .post('/api/providers', getProvidersForCategory)
   .get('/api/provider/:id', getProviderById)
+  .post('/api/postmessage', postMessage)
   
   // add new endpoints here ☝️
   // ---------------------------------

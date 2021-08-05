@@ -278,6 +278,34 @@ const getProviderById = async (req, res) => {
   }
 };
 
+const postMessage = async (req, res) => {
+  const newMessage = {
+    ...{_id: uuidv4().split('-').join('').substring(0,8)},
+    ...req.body
+  };
+
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const result = await db.collection("messages").insertOne(newMessage);
+    if (result) {
+      res.status(201).json({ status: 201, message: "ok", newMessage: newMessage })
+    } else {
+      res.status(404).json({ status: 404, message: "error inserting message", newMessage: "error" });
+    }  
+  }
+  catch (err) {
+    console.log(`postMessage caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: err, newMessage: "error" });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+
 module.exports = {
   createUser,
   verifyUser,
@@ -285,5 +313,6 @@ module.exports = {
   getAllUsers,
   getAllCategories,
   getProvidersForCategory,
-  getProviderById
+  getProviderById,
+  postMessage
 };
