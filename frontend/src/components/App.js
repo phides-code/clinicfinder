@@ -15,6 +15,8 @@ import { useHistory } from "react-router";
 import Profile from "./Profile";
 import FindAProvider from "./FindAProvider";
 import ClinicDetail from "./ClinicDetail";
+import Messages from "./Messages";
+import ViewMessage from "./ViewMessage";
 
 const App = () => {
   const {
@@ -105,19 +107,29 @@ const App = () => {
               <ClinicianSignup />
             </Route>
 
-            <Route exact path="/clinicdetail/:clinicId">
-              <ClinicDetail />
-            </Route>
-
             <Route exact path="/welcome">
               <Welcome />
             </Route>
+
+            <Route exact path="/clinicdetail/:clinicId">
+              <ClinicDetail />
+            </Route>
+            
             <Route exact path="/profile/:id">
               <Profile />
             </Route>
             <Route exact path="/findaprovider">
               <FindAProvider />
             </Route>
+
+            <Route exact path="/messages">
+              <Messages />
+            </Route>
+
+            <Route exact path="/viewmessage/:messageId">
+              <ViewMessage />
+            </Route>
+
             <Route path="">404: Oops!</Route>
           </Switch>
         </Main>

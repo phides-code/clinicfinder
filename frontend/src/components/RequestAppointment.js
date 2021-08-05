@@ -12,9 +12,14 @@ const RequestAppointment = ({clinic}) => {
 
     const messageObject = {
       recipient: clinic.id,
-      sender: currentUser._id,
+      senderId: currentUser._id,
+      senderName: currentUser.name,
+      senderEmail: currentUser.email,
+      senderPhone: currentUser.phone,
       timestamp: Date.now(),
       message: ev.target.messagetext.value,
+      type: "appointmentRequest",
+      read: false
     };
 
     console.log("posting message: ");
@@ -54,8 +59,8 @@ const RequestAppointment = ({clinic}) => {
         <div>Email: {currentUser.email}</div>
         <div>Phone: {currentUser.phone}</div>
         <form onSubmit={postMessage}>
-          <div>Requested Date: <input type="date"/></div>
-          <div>Message: </div>
+          <div>Requested Date: <input type="date" required/></div>
+          <div>Message (optional): </div>
           <div><MessageText name="messagetext"/></div>
           <input type="submit" value="Send"/>
           <button onClick={() => {setRequestAppointment(false)}}>Cancel</button>

@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
 const Profile = () => {
-  // const history = useHistory;
+  const history = useHistory();
   const {id} = useParams();
   console.log("got id: ");
   console.log( id );
@@ -13,8 +13,12 @@ const Profile = () => {
   const localUserId = localStorage.getItem("healthUser");
 
   useEffect( () => {
-    (async () => {
-
+    // const checkLocalUser = localStorage.getItem("healthUser");
+    if (!localUserId || !currentUser) {
+      console.log(`no logged in user found, redirecting...`);
+      history.push("/login");
+    } else {
+      (async () => {
         try {
           const res = await fetch(`/api/profile/${id}`, {
             method: "POST",
@@ -38,23 +42,30 @@ const Profile = () => {
           }
 
         } catch (err) {
-          console.log(`error fetching profile`);
-          window.alert(`error fetching profile`);
+          console.log(`caught error fetching profile`);
+          console.log(err);
+          window.alert(`caught error fetching profile`);
         }
-    })();
+      })();
+    }
   }, []);
 
   return (
     profile ? 
     <div>
       <div><h1>User profile: {profile._id}</h1></div>
-      <div>{profile.userType}</div>
       <div>{profile.name}</div>
+      <div>{profile.userType}
+        {
+          (profile.userType === "clinician") && 
+          <> with {profile.clinicName}</>
+        }
+      </div>
       <div>{profile.address}</div>
       <div>{profile.email}</div>
       <div>{profile.phone}</div>
     </div> :
-    <div>unable to display profile</div>
+    <div>Loading ... </div>
   );
 };
 

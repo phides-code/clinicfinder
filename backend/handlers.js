@@ -221,7 +221,6 @@ const getProvidersForCategory = async (req, res) => {
   console.log(`got req.body.postalcode: ${req.body.postalcode}`);
   try {
     const providers = await request({
-      // https://api.yelp.com/v3/businesses/search?categories=acupuncture&location=H2S1Y3
       uri: `https://api.yelp.com/v3/businesses/search?categories=${req.body.category}&location=${req.body.postalcode}`,
       headers: YelpApiHeader,
       json: true // Automatically parses the JSON string in the response
@@ -306,6 +305,83 @@ const postMessage = async (req, res) => {
   console.log("disconnected from db");
 };
 
+const getMessages = async (req, res) => {
+  console.log(`retrieving messages for recipient ${req.body.recipientId}`);
+
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const results = await db.collection("messages").find({
+      recipient: req.body.recipientId
+    }).toArray();
+
+    if (results) {
+      res.status(200).json({
+        status: 200, message: "ok",
+        messages: results
+      });
+    } else {
+      res.status(404).json({
+        status: 404, message: "no messages found",
+        messages: "no messages found"
+      });
+    }
+
+  } catch (err) {
+    console.log(`caught error getting messages`);
+    console.log(err);
+    res.status(404).json({
+      status: 404, message: err,
+      messages: "getMessages caught error"
+    });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+
+const getMessageById = async (req, res) => {
+  console.log(`looking up message id: ${req.body.messageId}`);
+  console.log(`requesting id: ${req.body.requestingId}`);
+  
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const result = await db.collection("messages").findOne(
+      { _id: req.body.messageId }
+    );
+
+    if (result) {
+      // check if the requesting ID is the sender or recipient of this message
+      if (req.body.requestingId === result.recipient || req.body.requestingId === result.senderId) {
+        // if ok, respond with the message 
+        res.status(200).json({ 
+          status: 200, message: result, 
+        });
+      } else {
+        // otherwise, respond unauthorized
+        res.status(403).json({ 
+          status: 403, message: "unauthorized", 
+        });
+      }
+    } else {
+      res.status(404).json({ status: 404, message: "message not found" });
+    }
+
+  } catch (err) {
+    console.log(`getMessageById caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: "getMessageById caught an error" });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+
 module.exports = {
   createUser,
   verifyUser,
@@ -314,5 +390,7 @@ module.exports = {
   getAllCategories,
   getProvidersForCategory,
   getProviderById,
-  postMessage
+  postMessage,
+  getMessages, 
+  getMessageById
 };
