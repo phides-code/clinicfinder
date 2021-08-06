@@ -19,7 +19,10 @@ const {
   getMessages,
   getMessageById,
   updateMessage,
-  createAppointment
+  createAppointment,
+  getAppointments,
+  getAppointmentById,
+  updateAppointment
 } = require("./handlers");
 
 express()
@@ -50,7 +53,10 @@ express()
   .post('/api/getmessagebyid', getMessageById)
   .patch('/api/updatemessage', updateMessage)
   .post('/api/createappointment', createAppointment)
-  
+  .post('/api/getappointments', getAppointments)
+  .post('/api/getappointmentbyid', getAppointmentById)
+  .patch('/api/updateappointment', updateAppointment)
+
   // add new endpoints here ☝️
   // ---------------------------------
   // Nothing to modify below this line

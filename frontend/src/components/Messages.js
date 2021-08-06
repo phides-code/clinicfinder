@@ -18,6 +18,8 @@ const Messages = () => {
       history.push("/login");
     } else {
       (async () => {
+        // if this is a patient, get messages for this patient ID
+        // if this is a clinician, get messages for this clinic's ID
         try {
           let thisRecipientId;
           if (currentUser.userType === "patient") { 

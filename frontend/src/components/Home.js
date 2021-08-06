@@ -59,7 +59,7 @@ const Home = () => {
           }
 
           <div>
-            <Link>
+            <Link to="/myappointments">
               View my appointments
             </Link>
           </div>

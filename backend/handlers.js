@@ -438,6 +438,120 @@ const createAppointment = async (req, res) => {
   console.log("disconnected from db");
 };
 
+const getAppointments = async (req, res) => {
+  console.log(`retrieving appointments for viewer ${req.body.viewerId}`);
+
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+  
+  let results;
+
+  // if the viewer is a patient, search on patientId, else search on clinicID
+  try {
+    if (req.body.viewerType === "patient") {
+      results = await db.collection("appointments").find({
+        patientId: req.body.viewerId
+      }).toArray();
+    } else {
+      results = await db.collection("appointments").find({
+        clinicId: req.body.viewerId
+      }).toArray();
+    }
+
+    if (results) {
+      res.status(200).json({
+        status: 200, message: "ok",
+        appointments: results
+      });
+    } else {
+      res.status(404).json({
+        status: 404, message: "no appointments found",
+        appointments: "no appointments found"
+      });
+    }
+
+  } catch (err) {
+    console.log(`caught error getting appointments`);
+    console.log(err);
+    res.status(404).json({
+      status: 404, message: err,
+      appointments: "getAppointments caught error"
+    });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+
+const getAppointmentById = async (req, res) => {
+  console.log(`looking up appointment id: ${req.body.appointmentId}`);
+  console.log(`requesting id: ${req.body.requestingId}`);
+  
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const result = await db.collection("appointments").findOne(
+      { _id: req.body.appointmentId }
+    );
+
+    if (result) {
+      // check if the requesting ID matches the patientId or clinicId for this appointment
+      if (req.body.requestingId === result.patientId || req.body.requestingId === result.clinicId) {
+        // if ok, respond with the appointment 
+        res.status(200).json({ 
+          status: 200, message: "ok", appointment: result, 
+        });
+      } else {
+        // otherwise, respond unauthorized
+        res.status(403).json({ 
+          status: 403, message: "unauthorized" 
+        });
+      }
+    } else {
+      res.status(404).json({ status: 404, message: "appointment not found" });
+    }
+
+  } catch (err) {
+    console.log(`getAppointmentById caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: "getAppointmentById caught an error" });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+
+const updateAppointment = async (req, res) => {
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+  console.log("got update: ");
+  console.log(req.body.update);
+
+  try {
+    const updateResult = await db.collection("appointments").updateOne(
+      { _id: req.body.appointmentId }, 
+      { $set: req.body.update }
+    );
+
+    if (updateResult.modifiedCount === 1) {
+      res.status(201).json({ status: 200, message: "ok" });
+    } else {
+      res.status(404).json({ status: 404, message: "could not update appointment" });
+    }
+  } catch (err) {
+    console.log(`updateAppointment caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: err });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+
 module.exports = {
   createUser,
   verifyUser,
@@ -450,5 +564,8 @@ module.exports = {
   getMessages, 
   getMessageById,
   updateMessage,
-  createAppointment
+  createAppointment,
+  getAppointments,
+  getAppointmentById,
+  updateAppointment
 };
