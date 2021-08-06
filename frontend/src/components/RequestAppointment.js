@@ -16,6 +16,7 @@ const RequestAppointment = ({clinic}) => {
       senderName: currentUser.name,
       senderEmail: currentUser.email,
       senderPhone: currentUser.phone,
+      requestedDate: ev.target.requestedDate.value,
       timestamp: Date.now(),
       message: ev.target.messagetext.value,
       type: "appointmentRequest",
@@ -59,7 +60,7 @@ const RequestAppointment = ({clinic}) => {
         <div>Email: {currentUser.email}</div>
         <div>Phone: {currentUser.phone}</div>
         <form onSubmit={postMessage}>
-          <div>Requested Date: <input type="date" required/></div>
+          <div>Requested Date: <input type="datetime-local" name="requestedDate" required/></div>
           <div>Message (optional): </div>
           <div><MessageText name="messagetext"/></div>
           <input type="submit" value="Send"/>

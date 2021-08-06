@@ -75,6 +75,7 @@ const ViewMessage = () => {
       <div>From: {message.senderName}</div>
       <div>Sent: {moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
       <hr/>
+      <div>Appointment requested: {message.requestedDate}</div>
       <div>{message.message}</div>
 
     </div> :
