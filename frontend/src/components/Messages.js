@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 const moment = require('moment');
 
 const Messages = () => {
@@ -11,14 +12,12 @@ const Messages = () => {
   const [messages, setMessages] = useState(null);
 
   useEffect(() => {
-    // console.log(`banana..........................................!`);
     const checkLocalUser = localStorage.getItem("healthUser");
     if (!checkLocalUser || !currentUser) {
       console.log(`no logged in user found, redirecting...`);
       history.push("/login");
     } else {
       (async () => {
-        // console.log(`about to try.................................`);
         try {
           let thisRecipientId;
           if (currentUser.userType === "patient") { 
@@ -59,7 +58,7 @@ const Messages = () => {
         <h1>Messages:</h1>
         {
           messages.length !== 0 ?
-            <div>
+            <MessageList>
               {
                 messages.map(message => {
                   return(
@@ -68,12 +67,13 @@ const Messages = () => {
                       <Link to={`/viewmessage/${message._id}`}>
                         <div>{message.senderName}{` - `}{message.type}</div>
                         <div>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+                        <div>Status: {message.status}</div>
                       </Link>
                     </div>
                   )
                 })
               } 
-            </div> :
+            </MessageList> :
             <div>No messages found.</div>
         }
       </div> : 
@@ -82,5 +82,10 @@ const Messages = () => {
       </div>
   );
 };
+
+const MessageList = styled.div`
+  display: flex;
+	flex-direction: column-reverse;
+`;
 
 export default Messages;

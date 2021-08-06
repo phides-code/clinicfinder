@@ -7,7 +7,6 @@ import Home from "./Home";
 import Footer from "./Footer";
 import Login from "./Login";
 import Signup from "./Signup";
-// import ClinicianLogin from "./ClinicianLogin";
 import ClinicianSignup from "./ClinicianSignup";
 import Welcome from "./Welcome";
 import { UserContext } from "./UserContext";

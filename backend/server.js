@@ -18,7 +18,8 @@ const {
   postMessage,
   getMessages,
   getMessageById,
-  markRead
+  updateMessage,
+  createAppointment
 } = require("./handlers");
 
 express()
@@ -47,7 +48,8 @@ express()
   .post('/api/postmessage', postMessage)
   .post('/api/getmessages', getMessages)
   .post('/api/getmessagebyid', getMessageById)
-  .patch('/api/markread', markRead)
+  .patch('/api/updatemessage', updateMessage)
+  .post('/api/createappointment', createAppointment)
   
   // add new endpoints here ☝️
   // ---------------------------------

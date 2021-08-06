@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
@@ -8,33 +8,34 @@ const Header = () => {
   const history = useHistory();
   const {
     currentUser,
-    setCurrentUser
+    setCurrentUser,
   } = useContext(UserContext);
 
   return (
     <Wrapper>
       <HeaderSection><Link to="/">Healthcare-App</Link></HeaderSection>
-      {/* <HeaderSection>Welcome</HeaderSection> */}
-      {/* <HeaderSection> */}
         {
           currentUser ?
             <>
               {currentUser.userType === "patient" &&
                 <HeaderSection><Link to="/findaprovider">Find a healthcare provider</Link></HeaderSection>}
               <HeaderSection>
-                Welcome, {` `} 
-                <Link to={`/profile/${currentUser._id}`}>
-                  {currentUser.name}
-                </Link>.{` `}
-            
-                ( <Link to="/"
-                  onClick={() => {
-                    setCurrentUser(null);
-                    localStorage.removeItem("healthUser");
-                    localStorage.removeItem("healthHash");
-                    console.log(`Logging out`);
+                <div>
+                  Welcome, {` `} 
+                  <Link to={`/profile/${currentUser._id}`}>
+                    {currentUser.name}
+                  </Link>.{` `}
+              
+                  ( <Link to="/"
+                    onClick={() => {
+                      setCurrentUser(null);
+                      localStorage.removeItem("healthUser");
+                      localStorage.removeItem("healthHash");
+                      console.log(`Logging out`);
 
-                  }}>Logout</Link> )
+                    }}>Logout</Link> )
+                </div>
+
               </HeaderSection>
             </> :
             <>
@@ -45,7 +46,6 @@ const Header = () => {
               </HeaderSection>
             </>
         }
-      {/* </HeaderSection> */}
     </Wrapper>
   );
 };

@@ -28,8 +28,8 @@ const Profile = () => {
           const data = await res.json();
 
           if (data.status === 200) {
-            console.log(`got data:`);
-            console.log(data);
+            // console.log(`got data:`);
+            // console.log(data);
             setProfile(data.profile);
           } else if (data.status === 403) {
             console.log("unauthorized");

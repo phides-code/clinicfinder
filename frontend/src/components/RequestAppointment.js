@@ -16,11 +16,12 @@ const RequestAppointment = ({clinic}) => {
       senderName: currentUser.name,
       senderEmail: currentUser.email,
       senderPhone: currentUser.phone,
-      requestedDate: ev.target.requestedDate.value,
+      requestedDate: (ev.target.requestedDate.value + " " + ev.target.requestedTime.value),
       timestamp: Date.now(),
       message: ev.target.messagetext.value,
       type: "appointmentRequest",
-      read: false
+      read: false,
+      status: "pending"
     };
 
     console.log("posting message: ");
@@ -60,7 +61,8 @@ const RequestAppointment = ({clinic}) => {
         <div>Email: {currentUser.email}</div>
         <div>Phone: {currentUser.phone}</div>
         <form onSubmit={postMessage}>
-          <div>Requested Date: <input type="datetime-local" name="requestedDate" required/></div>
+          <div>Requested Date: <input type="date" name="requestedDate" required/></div>
+          <div>Requested Time: <input type="time" name="requestedTime" required/></div>
           <div>Message (optional): </div>
           <div><MessageText name="messagetext"/></div>
           <input type="submit" value="Send"/>
