@@ -9,6 +9,19 @@ const ViewMessage = () => {
   const {messageId} = useParams();
   const [message, setMessage] = useState(null);
 
+  const markRead = async () => {
+    const res = await fetch(`/api/markread`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messageId: messageId,
+        newState: true
+      })
+    });
+    const data = await res.json();
+    console.log(`${data.status} ${data.message} marked it read`);
+  };
+
   useEffect(() => {
     const checkLocalUser = localStorage.getItem("healthUser");
     if (!checkLocalUser || !currentUser) {
@@ -34,10 +47,8 @@ const ViewMessage = () => {
           const data = await res.json();
 
           if (data.status === 200) {
-            console.log(`got data:`);
-            console.log(data);
             setMessage(data.message);
-
+            if (data.message.read === false) { await markRead(); }
           } else if (data.status === 403) {
             console.log("unauthorized");
             console.log(data.message);

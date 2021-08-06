@@ -382,6 +382,32 @@ const getMessageById = async (req, res) => {
   console.log("disconnected from db");
 };
 
+const markRead = async (req, res) => {
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const updateResult = await db.collection("messages").updateOne(
+      { _id: req.body.messageId }, 
+      { $set: { read: req.body.newState } }
+    );
+
+    if (updateResult.modifiedCount === 1) {
+      res.status(201).json({ status: 200, message: "ok" });
+    } else {
+      res.status(404).json({ status: 404, message: "could not update message" });
+    }
+  } catch (err) {
+    console.log(`markRead caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: err });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+
 module.exports = {
   createUser,
   verifyUser,
@@ -392,5 +418,6 @@ module.exports = {
   getProviderById,
   postMessage,
   getMessages, 
-  getMessageById
+  getMessageById,
+  markRead
 };

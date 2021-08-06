@@ -17,7 +17,8 @@ const {
   getProviderById,
   postMessage,
   getMessages,
-  getMessageById
+  getMessageById,
+  markRead
 } = require("./handlers");
 
 express()
@@ -46,6 +47,7 @@ express()
   .post('/api/postmessage', postMessage)
   .post('/api/getmessages', getMessages)
   .post('/api/getmessagebyid', getMessageById)
+  .patch('/api/markread', markRead)
   
   // add new endpoints here ☝️
   // ---------------------------------
