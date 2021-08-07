@@ -71,12 +71,56 @@ const ViewAppointment = () => {
     console.log(update);
   }
 
+  const updateMessage = async (update) => {
+    const res = await fetch(`/api/updatemessage`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messageId: appointment.requestId,
+        update: update
+      })
+    });
+    const data = await res.json();
+    console.log(`${data.status} ${data.message} updated message: `);
+    console.log(update);
+  }
 
   const issueReceipt = async () => {
     console.log(`issue receipt for appointment ${appointment._id}`);
-    updateAppointment({status: "completed"});
-    // create receipt object in the DB... message?
-    
+    await updateAppointment({status: "completed"});
+    await updateMessage({status: "completed"});
+    // create receipt object in the DB... 
+    const receipt = {
+      appointmentId: appointment._id,
+      patientId: appointment.patientId,
+      patientName: appointment.patientName,
+      clinicId: appointment.clinicId,
+      clinicName: appointment.clinicName,
+      appointmentDate: appointment.date,
+      type: "receipt"
+    };
+    try {
+      console.log(`trying fetch...`);
+      const res = await fetch("/api/postdocument", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(receipt)
+      });
+      const data = await res.json();
+      console.log(`got data:`);
+      console.log(data);
+
+      if (data.status === 201) {
+        console.log("created document in db");
+      } else {
+        console.log(`got unexpected status:
+        ${data.status}: ${data.message}`);
+      }
+    } catch (err) {
+      console.log(`issueReceipt caught an error while creating document:`);
+      console.log(err);
+      window.alert(`issueReceipt caught an error while creating document.`);
+    }
     history.push("/myappointments");
   };
 

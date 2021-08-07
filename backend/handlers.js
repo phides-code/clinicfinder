@@ -553,6 +553,34 @@ const updateAppointment = async (req, res) => {
   console.log("disconnected from db");
 };
 
+const postDocument = async (req, res) => {
+  console.log(`running postDocument...`);
+  const newDocument = {
+    ...{_id: uuidv4().split('-').join('').substring(0,8)},
+    ...req.body
+  };
+
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const result = await db.collection("documents").insertOne(newDocument);
+    if (result) {
+      res.status(201).json({ status: 201, message: "ok", newDocument: newDocument })
+    } else {
+      res.status(404).json({ status: 404, message: "error inserting document", newDocument: "error" });
+    }  
+  } catch (err) {
+    console.log(`postDocument caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: err, newDocument: "error" });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+
 module.exports = {
   createUser,
   verifyUser,
@@ -568,5 +596,6 @@ module.exports = {
   createAppointment,
   getAppointments,
   getAppointmentById,
-  updateAppointment
+  updateAppointment,
+  postDocument
 };

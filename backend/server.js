@@ -22,7 +22,8 @@ const {
   createAppointment,
   getAppointments,
   getAppointmentById,
-  updateAppointment
+  updateAppointment,
+  postDocument
 } = require("./handlers");
 
 express()
@@ -56,6 +57,7 @@ express()
   .post('/api/getappointments', getAppointments)
   .post('/api/getappointmentbyid', getAppointmentById)
   .patch('/api/updateappointment', updateAppointment)
+  .post('/api/postdocument', postDocument)
 
   // add new endpoints here ☝️
   // ---------------------------------

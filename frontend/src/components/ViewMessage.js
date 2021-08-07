@@ -133,6 +133,7 @@ const ViewMessage = () => {
             console.log(`got message:`);
             console.log(data.message);
             setMessage(data.message);
+            // only mark it read if this user is not the sender
             if (data.message.read === false 
               && data.message.senderId !== currentUser._id
               && data.message.senderId !== currentUser.clinicId
