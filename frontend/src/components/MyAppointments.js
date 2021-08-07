@@ -44,7 +44,7 @@ const MyAppointments = () => {
           } else {
             console.log("no appointments found");
             console.log(data.appointments);
-            window.alert("no appointments found");
+            // window.alert("no appointments found");
             setAppointments([]);
           }
         

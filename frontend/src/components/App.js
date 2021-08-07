@@ -18,6 +18,7 @@ import Messages from "./Messages";
 import ViewMessage from "./ViewMessage";
 import MyAppointments from "./MyAppointments";
 import ViewAppointment from "./ViewAppointment";
+import ViewPatients from "./ViewPatients";
 
 const App = () => {
   const {
@@ -137,6 +138,10 @@ const App = () => {
 
             <Route exact path="/viewappointment/:appointmentId">
               <ViewAppointment />
+            </Route>
+
+            <Route exact path="/viewpatients">
+              <ViewPatients />
             </Route>
 
             <Route path="">404: Oops!</Route>

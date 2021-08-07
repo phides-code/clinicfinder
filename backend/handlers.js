@@ -581,6 +581,46 @@ const postDocument = async (req, res) => {
   console.log("disconnected from db");
 };
 
+const getPatients = async (req, res) => {
+  console.log(`retrieving patients for clinic ${req.body.clinicId}: `);
+
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    // get all patients who have sent messages to this clinic
+    const senders = await db.collection("messages").find(
+      { recipientId: req.body.clinicId },
+      { projection: { _id: 0, senderId: 1, senderName: 1 } }
+    ).toArray();
+
+    // get unique {senderId, senderName} pairs from senders
+    const patients = [...new Map(senders.map(item => [item["senderId"], item])).values()];
+
+    if (patients) {
+      res.status(200).json({
+        status: 200, message: "ok",
+        patients: patients
+      });
+    } else {
+      res.status(404).json({
+        status: 404, message: "no patients found"
+      })
+      console.log(`no patient Id's found`);
+    }
+  } catch (err) {
+    res.status(404).json({
+      status: 404, message: "getPatients caught an error"
+    })
+    console.log("getPatients caught an error");
+  }
+  client.close();
+  console.log("disconnected from db");
+
+};
+
 module.exports = {
   createUser,
   verifyUser,
@@ -597,5 +637,6 @@ module.exports = {
   getAppointments,
   getAppointmentById,
   updateAppointment,
-  postDocument
+  postDocument,
+  getPatients
 };

@@ -54,7 +54,9 @@ const Home = () => {
               </div> 
             : clinic &&
               <div>
-                View patients at {clinic.name}
+                <Link to="/viewpatients">
+                  View patients at {clinic.name}
+                </Link>
               </div>
           }
 
