@@ -306,7 +306,8 @@ const postMessage = async (req, res) => {
 };
 
 const getMessages = async (req, res) => {
-  console.log(`retrieving messages for recipient ${req.body.recipientId}`);
+  console.log(`retrieving messages with params: `);
+  console.log(req.body.queryParams);
 
   const client = new MongoClient (MONGO_URI, options);
   await client.connect();
@@ -314,9 +315,9 @@ const getMessages = async (req, res) => {
   console.log("connected to db");
 
   try {
-    const results = await db.collection("messages").find({
-      recipient: req.body.recipientId
-    }).toArray();
+    const results = await db.collection("messages").find(
+      req.body.queryParams
+    ).toArray();
 
     if (results) {
       res.status(200).json({
@@ -358,7 +359,7 @@ const getMessageById = async (req, res) => {
 
     if (result) {
       // check if the requesting ID is the sender or recipient of this message
-      if (req.body.requestingId === result.recipient || req.body.requestingId === result.senderId) {
+      if (req.body.requestingId === result.recipientId || req.body.requestingId === result.senderId) {
         // if ok, respond with the message 
         res.status(200).json({ 
           status: 200, message: result, 

@@ -11,7 +11,8 @@ const RequestAppointment = ({clinic}) => {
     ev.preventDefault();
 
     const messageObject = {
-      recipient: clinic.id,
+      recipientId: clinic.id,
+      recipientName: clinic.name,
       senderId: currentUser._id,
       senderName: currentUser.name,
       senderEmail: currentUser.email,

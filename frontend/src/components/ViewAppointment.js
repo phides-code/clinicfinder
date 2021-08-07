@@ -75,6 +75,8 @@ const ViewAppointment = () => {
   const issueReceipt = async () => {
     console.log(`issue receipt for appointment ${appointment._id}`);
     updateAppointment({status: "completed"});
+    // create receipt object in the DB... message?
+    
     history.push("/myappointments");
   };
 

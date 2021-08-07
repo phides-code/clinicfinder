@@ -10,6 +10,7 @@ const Messages = () => {
   const {currentUser, 
   } = useContext(UserContext);
   const [messages, setMessages] = useState(null);
+  // let viewerId;
 
   useEffect(() => {
     const checkLocalUser = localStorage.getItem("healthUser");
@@ -21,17 +22,19 @@ const Messages = () => {
         // if this is a patient, get messages for this patient ID
         // if this is a clinician, get messages for this clinic's ID
         try {
-          let thisRecipientId;
+          let viewerId;
           if (currentUser.userType === "patient") { 
-            thisRecipientId = currentUser._id;
+            viewerId = currentUser._id;
           } else {
-            thisRecipientId = currentUser.clinicId;
+            viewerId = currentUser.clinicId;
           }
-          console.log(`fetching messages for recipient ${thisRecipientId}`);
+          console.log(`fetching messages for recipient ${viewerId}`);
           const res = await fetch(`/api/getmessages`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ recipientId: thisRecipientId })
+            body: JSON.stringify({queryParams: { 
+              $or: [ { recipientId: viewerId }, { senderId: viewerId } ]
+            }})
           });
           const data = await res.json();
 
@@ -63,16 +66,44 @@ const Messages = () => {
             <MessageList>
               {
                 messages.map(message => {
-                  return(
-                    <div key={message._id}>
-                      <hr/> {message.read === false && <>NEW</>}
-                      <Link to={`/viewmessage/${message._id}`}>
-                        <div>{message.senderName}{` - `}{message.type}</div>
-                        <div>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
-                        <div>Status: {message.status}</div>
-                      </Link>
-                    </div>
-                  )
+                  if (message.recipientId === currentUser._id
+                    || message.recipientId === currentUser.clinicId) {
+                    return(
+                      <div key={message._id}>
+                        <hr/> {message.read === false && <>NEW</>}
+                        <Link to={`/viewmessage/${message._id}`}>
+                          <div>{message.senderName}{` - `}{message.type}</div>
+                          <div>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+                          <div>Status: {message.status}</div>
+                        </Link>
+                      </div>
+                    )
+                  }
+                })
+              } 
+            </MessageList> :
+            <div>No messages found.</div>
+        }
+        <h1>Sent messages:</h1>
+        {
+          messages.length !== 0 ?
+            <MessageList>
+              {
+                messages.map(message => {
+                  if (message.senderId === currentUser._id 
+                    || message.senderId === currentUser.clinicId) {
+                    return(
+                      <div key={message._id}>
+                        <hr/>
+                        {/* <hr/> {message.read === false && <>NEW</>} */}
+                        <Link to={`/viewmessage/${message._id}`}>
+                          <div>{message.senderName}{` - `}{message.type}</div>
+                          <div>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+                          <div>Status: {message.status}</div>
+                        </Link>
+                      </div>
+                    )
+                  }
                 })
               } 
             </MessageList> :

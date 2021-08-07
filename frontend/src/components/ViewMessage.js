@@ -29,10 +29,10 @@ const ViewMessage = () => {
     ev.preventDefault();
 
     let messageText;
-    let messageType;
+    let replyType;
     if (ev.target.name === "confirm") {
       messageText = "your appointment has been confirmed";
-      messageType = "confirmed";
+      replyType = "confirmed";
 
       // if confirmed, creating appointment in db
       try {
@@ -66,7 +66,7 @@ const ViewMessage = () => {
       }
     } else {
       messageText = "your appointment has been denied";
-      messageType = "denied";
+      replyType = "denied";
     }
 
     // post a message to the patient confirming or denying the appointment
@@ -75,15 +75,16 @@ const ViewMessage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          recipient: message.senderId,
+          recipientId: message.senderId,
+          recipientName: message.senderName,
           senderId: currentUser.clinicId,
           senderName: (currentUser.name + " at " + currentUser.clinicName),
           senderEmail: currentUser.email,
           senderPhone: currentUser.phone,
           timestamp: Date.now(),
           message: messageText,
-          type: messageType,
-          status: messageType,
+          type: "reply",
+          // status: replyType,
           read: false
         })
       });
@@ -91,7 +92,7 @@ const ViewMessage = () => {
 
       if (data.status === 201) {
         // set the request status to "confirmed" or "denied"
-        await updateMessage({status: messageType});
+        await updateMessage({status: replyType});
         history.push("/messages");        
       } else {
         window.alert(`got unexpected status:
@@ -132,7 +133,10 @@ const ViewMessage = () => {
             console.log(`got message:`);
             console.log(data.message);
             setMessage(data.message);
-            if (data.message.read === false) { await updateMessage({read: true}); }
+            if (data.message.read === false 
+              && data.message.senderId !== currentUser._id
+              && data.message.senderId !== currentUser.clinicId
+              ) { await updateMessage({read: true}); }
           } else if (data.status === 403) {
             console.log("unauthorized");
             console.log(data.message);
@@ -158,6 +162,7 @@ const ViewMessage = () => {
       <div>Type: {message.type}</div>
       <div>Status: {message.status}</div>
       <div>From: {message.senderName}</div>
+      <div>To: {message.recipientName}</div>
       <div>Sent: {moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
       <hr/>
       <div>Message: {message.requestedDate}</div>
