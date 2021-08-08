@@ -28,8 +28,6 @@ const Profile = () => {
           const data = await res.json();
 
           if (data.status === 200) {
-            // console.log(`got data:`);
-            // console.log(data);
             setProfile(data.profile);
           } else if (data.status === 403) {
             console.log("unauthorized");
@@ -48,7 +46,7 @@ const Profile = () => {
         }
       })();
     }
-  }, []);
+  }, [id]);
 
   return (
     profile ? 
@@ -64,6 +62,11 @@ const Profile = () => {
       <div>{profile.address}</div>
       <div>{profile.email}</div>
       <div>{profile.phone}</div>
+      {
+        // (profile.userType === "patient" && currentUser.userType === "clinician") &&
+        (profile.userType === "patient") &&
+        <> Upcoming appointments: </>
+      }
     </div> :
     <div>Loading ... </div>
   );

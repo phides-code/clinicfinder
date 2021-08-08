@@ -60,23 +60,58 @@ const MyAppointments = () => {
   return (
     appointments ?
     <div>
-      <h1>Appointments :</h1>
+      <h1>Upcoming Appointments :</h1>
       {
         appointments.length !== 0 ?
           <AppointmentList>
             {
+              (appointments.filter(appointment => appointment.status === "confirmed").length === 0)
+              && <>none found</>
+            }
+
+            {
+              appointments.map((appointment, i) => {
+                if (appointment.status === "confirmed")
+                {
+                  return(
+                    <div key={appointment._id}>
+                      <hr/> 
+                      <Link to={`/viewappointment/${appointment._id}`}>
+                        <div>Patient: {appointment.patientName}</div>
+                        <div>Date: {appointment.date}</div>
+                        <div>Status: {appointment.status}</div>
+                      </Link>
+                    </div>
+                  )
+                }
+              })
+            } 
+          </AppointmentList> :
+          <div>No appointments found.</div>
+      }
+      <h1>Completed Appointments :</h1>
+      {
+        appointments.length !== 0 ?
+          <AppointmentList>
+            {
+              (appointments.filter(appointment => appointment.status === "completed").length === 0)
+              && <>none found</>
+            }
+            {
               appointments.map(appointment => {
-                return(
-                  <div key={appointment._id}>
-                    <hr/> 
-                    {/* {appointment.read === false && <>NEW</>} */}
-                    <Link to={`/viewappointment/${appointment._id}`}>
-                      <div>Patient: {appointment.patientName}</div>
-                      <div>Date: {appointment.date}</div>
-                      <div>Status: {appointment.status}</div>
-                    </Link>
-                  </div>
-                )
+                if (appointment.status === "completed") {
+                  return(
+                    <div key={appointment._id}>
+                      <hr/> 
+                      {/* {appointment.read === false && <>NEW</>} */}
+                      <Link to={`/viewappointment/${appointment._id}`}>
+                        <div>Patient: {appointment.patientName}</div>
+                        <div>Date: {appointment.date}</div>
+                        <div>Status: {appointment.status}</div>
+                      </Link>
+                    </div>
+                  )
+                }
               })
             } 
           </AppointmentList> :

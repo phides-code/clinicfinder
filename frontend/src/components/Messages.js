@@ -65,6 +65,11 @@ const Messages = () => {
           messages.length !== 0 ?
             <MessageList>
               {
+                (messages.filter(message => message.recipientId === currentUser._id
+                  || message.recipientId === currentUser.clinicId).length === 0)
+                && <>None found</>
+              }
+              {
                 messages.map(message => {
                   if (message.recipientId === currentUser._id
                     || message.recipientId === currentUser.clinicId) {
@@ -88,6 +93,11 @@ const Messages = () => {
         {
           messages.length !== 0 ?
             <MessageList>
+              {
+                (messages.filter(message => message.senderId === currentUser._id 
+                  || message.senderId === currentUser.clinicId).length === 0)
+                && <>None found</>
+              }
               {
                 messages.map(message => {
                   if (message.senderId === currentUser._id 

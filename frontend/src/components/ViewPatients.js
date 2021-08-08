@@ -61,7 +61,6 @@ const ViewPatients = () => {
                 return(
                   <div key={patient.senderId}>
                     <hr/> 
-                    {/* {appointment.read === false && <>NEW</>} */}
                     <Link to={`/profile/${patient.senderId}`}>
                       <div>Patient: {patient.senderName}</div>
                     </Link>
