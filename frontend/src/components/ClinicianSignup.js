@@ -107,47 +107,52 @@ const ClinicianSignup = () => {
   };
 
   return (
-    <div>
-      <div><h1>Clinician Signup page - Enter your clinic ID:</h1></div>
-      <div>
+    <Wrapper>
+      <h1>Clinician Signup</h1>
+
+      { !provider && 
         <form onSubmit={findProvider}>
+          <div>Enter your clinic ID: </div>
           <input name="providerId" type="text" style={{width: "200px"}} required />
-          <input type="submit" value="Submit" />
+          <SignupDiv>
+            <SignupButton type="submit" value="Submit" />
+          </SignupDiv>
         </form>
-      </div>
+      }
+
       {(provider && provider !== "none found") ?
       <div>
-        <div><h2>Your Clinic:</h2></div>
+        <h3>Your Clinic:</h3>
         <div>{provider.name}</div>
         <div>{provider.display_phone}</div>
         <div>{provider.location.display_address}</div>
 
-        <form onSubmit={postNewUser}>
-          <div><h2>Enter your information to register as a clinician with {provider.name}:</h2></div>
+        <LoginForm onSubmit={postNewUser}>
+          <h3>Enter your information to register as a clinician with {provider.name}:</h3>
           <div>
-            <label>Name: </label>
-            <input name="name" type="text" required />
+            <label>Name: </label></div>
+            <div><input name="name" type="text" required />
           </div>
           <div>
-            <label>Email: </label>
-            <input name="email" type="email" required />
-          </div>
-
-          <div>
-            <label htmlFor="password">Create a Password: </label>
-            <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
+            <label>Email: </label></div>
+            <div><input name="email" type="email" required />
           </div>
 
           <div>
-            <label htmlFor="confirm_password">Confirm Password</label>
-            <input type="password" placeholder="Confirm Password" id="confirm_password" required />
+            <label htmlFor="password">Create a Password: </label></div>
+            <div><input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
           </div>
 
           <div>
-            <input type="submit" value="Submit" />
-            <button type="reset">Reset</button>
+            <label htmlFor="confirm_password">Confirm Password</label></div>
+            <div><input type="password" placeholder="Confirm Password" id="confirm_password" required />
           </div>
-        </form>
+
+          <SignupDiv>
+            <SignupButton type="submit" value="Submit" />
+            <SignupButton onClick={() => {setProvider(null);}} type="reset" value="Reset"/>
+          </SignupDiv>
+        </LoginForm>
 
         <PasswordValidation id="message" >
           <h3>Password must contain the following:</h3>
@@ -159,9 +164,45 @@ const ClinicianSignup = () => {
 
       </div> : (provider === "none found") && <div>Clinic not found.</div>
       }
-    </div>
+    </Wrapper>
   );
 };
+
+const LoginForm = styled.form`
+  display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+`;
+
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+  display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+`;
+
+const SignupButton = styled.input`
+  margin: 20px 0px;
+  padding: 10px 20px;
+`;
+
+const SignupDiv = styled.div`
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+`;
 
 const PasswordValidation = styled.div`
   display: none;

@@ -82,82 +82,100 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <div><h1>Signup page</h1></div>
-
-      <div>
+    <Wrapper>
+      <div><h1>Patient Signup</h1></div>
         <form onSubmit={postNewUser}>
           <div>
-            <label>FullName: </label>
-            <input name="name" type="text" required />
+            <label>Name: </label></div>
+            <div><input name="name" type="text" required />
           </div>
           <div>
-            <label>Email: </label>
-            <input name="email" type="email" required />
+            <label>Email: </label></div>
+            <div><input name="email" type="email" required />
           </div>
           <div>
-            <label>Phone: </label>
-            <input name="phone" type="phone" required />
+            <label>Phone: </label></div>
+            <div><input name="phone" type="phone" required />
           </div>
           <div>
-            <label>Address: </label>
-            <input name="address" type="address" required />
+            <label>Address: </label></div>
+            <div><input name="address" type="address" required />
           </div>
           <div>
-            <label>City: </label>
-            <input name="city" type="text" required />
+            <label>City: </label></div>
+            <div><input name="city" type="text" required />
           </div>
           <div>
-            <label>Province: </label>
-            <input name="province" type="text" required />
+            <label>Province: </label></div>
+          <div><input name="province" type="text" required />
           </div>
           <div>
-            <label>Postal Code: </label>
-            <input name="postalcode" type="text" required />
+            <label>Postal Code: </label></div>
+            <div><input name="postalcode" type="text" required />
           </div>
           <div>
-            <label>Country: </label>
-            <input name="country" type="text" required />
-          </div>
-          <div>
-            <>User type:</>
-            <input type="radio" name="userType" value="patient" id="patient" required></input>
-            <label htmlFor="patient">Patient</label>
-            <input type="radio" name="userType" value="clinician" id="clinician"></input>
-            <label htmlFor="clinician">Clinician</label>
+            <label>Country: </label></div>
+            <div><input name="country" type="text" required />
           </div>
 
           <div>
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
+            <label htmlFor="password">Password: </label></div>
+            <div><input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
           </div>
 
           <div>
-            <label htmlFor="confirm_password">Confirm Password</label>
-            <input type="password" placeholder="Confirm Password" id="confirm_password" required />
+            <label htmlFor="confirm_password">Confirm Password: </label></div>
+            <div><input type="password" placeholder="Confirm Password" id="confirm_password" required />
           </div>
 
-          <div>
-            <input type="submit" value="Submit New User" />
-            <button type="reset">Reset</button>
-          </div>
+          <SignupDiv>
+            <SignupButton type="submit" value="Submit" />
+            {/* <button type="reset">Reset</button> */}
+            <SignupButton type="reset"/>
+          </SignupDiv>
         </form>
 
         <PasswordValidation id="message" >
-          <h3>Password must contain the following:</h3>
+          <h3>Password must contain:</h3>
           <p id="letter" className="invalid">A <b>lowercase</b> letter</p>
-          <p id="capital" className="invalid">A <b>capital (uppercase)</b> letter</p>
+          <p id="capital" className="invalid">An <b>uppercase</b> letter</p>
           <p id="number" className="invalid">A <b>number</b></p>
           <p id="length" className="invalid">Minimum <b>8 characters</b></p>
         </PasswordValidation>
-
-      </div>
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+  display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+`;
+
+const SignupButton = styled.input`
+  margin: 20px 0px;
+  padding: 10px 20px;
+`;
+
+const SignupDiv = styled.div`
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+`;
 
 const PasswordValidation = styled.div`
   display: none;
 `;
+
+
 
 export default Signup;

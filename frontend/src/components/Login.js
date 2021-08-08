@@ -65,29 +65,55 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login page</h1>
-      <div>
-        <form onSubmit={userLogin}>
-          <div>
-            <label>Patient or Clinician ID: </label>
-            <input name="patientId" required></input>
-          </div>
-          <div>
-            <label>Password: </label>
-            <input type="password" name="password" required></input>
-          </div>
-          <div>
-            <input type="submit" value="Login"/>
-          </div>
+    <Wrapper>
+      <h1>Login</h1>
+      {/* <div> */}
+        <LoginForm onSubmit={userLogin}>
+          <div><label>Patient or Clinician ID: </label></div>
+          <div><input name="patientId" required></input></div>
           
+          <div><label>Password: </label></div>
+          <div><input type="password" name="password" required></input></div>
           {
             invalidUser && <div>*** Invalid Login ***</div>
           }
-        </form>
-      </div>
-    </div>
+          <LoginDiv>
+            <LoginButton type="submit" value="Login"/>
+          </LoginDiv>
+          
+          
+        </LoginForm>
+      {/* </div> */}
+    </Wrapper>
   );
 };
+
+const LoginForm = styled.form``;
+
+const LoginButton = styled.input`
+  margin: 20px 0px;
+  padding: 10px 20px;
+`;
+
+const LoginDiv = styled.div`
+  display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+`;
+
+const Wrapper = styled.div`
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+  display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+`;
 
 export default Login;
