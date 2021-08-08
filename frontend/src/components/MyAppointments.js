@@ -79,6 +79,7 @@ const MyAppointments = () => {
                       <Link to={`/viewappointment/${appointment._id}`}>
                         <div>Patient: {appointment.patientName}</div>
                         <div>Date: {appointment.date}</div>
+                        <div>Service Category: {appointment.serviceCategory}</div>
                         <div>Status: {appointment.status}</div>
                       </Link>
                     </div>

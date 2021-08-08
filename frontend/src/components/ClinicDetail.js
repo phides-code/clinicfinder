@@ -16,6 +16,7 @@ const ClinicDetail = () => {
   const [clinic, setClinic] = useState(null);
 
   useEffect(() => {
+    setMessageSuccess(false);
     const checkLocalUser = localStorage.getItem("healthUser");
     if (!checkLocalUser || !currentUser) {
       console.log(`no logged in user found, redirecting...`);
@@ -49,13 +50,23 @@ const ClinicDetail = () => {
         <h1>{clinic.name}</h1>
         <div>{clinic.location.display_address}</div>
         <div>{clinic.display_phone}</div>
-        <button onClick={() => {setRequestAppointment(true);}}>Request an appointment</button>
+        <div>Services offered: </div>
+
+          {
+            clinic.categories.map(category => {
+              return <div>{category.title}</div>;
+            })
+          }
+        { (!messageSuccess && currentUser.userType === "patient") && 
+          <button onClick={() => {setRequestAppointment(true);}}>Request an appointment</button>
+        }
         {requestAppointment && <RequestAppointment clinic={clinic}/>}
         {messageSuccess && 
           <div>
-            <div>Message sent successfully!</div>
+            <div>Message sent !</div>
             <div><Link to="/">Click to return to the homepage</Link></div>
-          </div>}
+          </div>
+        }
       </div> 
     : 
       <div>Loading ... </div>

@@ -18,6 +18,7 @@ const RequestAppointment = ({clinic}) => {
       senderEmail: currentUser.email,
       senderPhone: currentUser.phone,
       requestedDate: (ev.target.requestedDate.value + " " + ev.target.requestedTime.value),
+      serviceCategory: ev.target.serviceCategory.value,
       timestamp: Date.now(),
       message: ev.target.messagetext.value,
       type: "appointmentRequest",
@@ -64,6 +65,16 @@ const RequestAppointment = ({clinic}) => {
         <form onSubmit={postMessage}>
           <div>Requested Date: <input type="date" name="requestedDate" required/></div>
           <div>Requested Time: <input type="time" name="requestedTime" required/></div>
+          <div>Requested Service Category:{` `} 
+            <select name="serviceCategory" required >
+              {
+                clinic.categories.map(category => {
+                  return <option value={category.title}>{category.title}</option>;
+                })
+              }
+            </select>
+          </div>
+
           <div>Message (optional): </div>
           <div><MessageText name="messagetext"/></div>
           <input type="submit" value="Send"/>

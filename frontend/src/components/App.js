@@ -19,6 +19,8 @@ import ViewMessage from "./ViewMessage";
 import MyAppointments from "./MyAppointments";
 import ViewAppointment from "./ViewAppointment";
 import ViewPatients from "./ViewPatients";
+import ViewDocument from "./ViewDocument";
+import Documents from "./Documents";
 
 const App = () => {
   const {
@@ -128,8 +130,16 @@ const App = () => {
               <Messages />
             </Route>
 
+            <Route exact path="/documents">
+              <Documents />
+            </Route>
+
             <Route exact path="/viewmessage/:messageId">
               <ViewMessage />
+            </Route>
+
+            <Route exact path="/viewdocument/:documentId">
+              <ViewDocument />
             </Route>
 
             <Route exact path="/myappointments">

@@ -97,9 +97,11 @@ const ViewAppointment = () => {
       clinicId: appointment.clinicId,
       clinicName: appointment.clinicName,
       appointmentDate: appointment.date,
+      serviceCategory: appointment.serviceCategory,
       timestamp: Date.now(),
       type: "receipt"
     };
+    let newReceipt;
     try {
       console.log(`trying fetch...`);
       const res = await fetch("/api/postdocument", {
@@ -108,8 +110,9 @@ const ViewAppointment = () => {
         body: JSON.stringify(receipt)
       });
       const data = await res.json();
-      console.log(`got data:`);
-      console.log(data);
+      // console.log(`got data:`);
+      // console.log(data);
+      newReceipt = data.newDocument;
 
       if (data.status === 201) {
         console.log("created document in db");
@@ -122,6 +125,41 @@ const ViewAppointment = () => {
       console.log(err);
       window.alert(`issueReceipt caught an error while creating document.`);
     }
+
+    ///////////////////////////////////////////////////////////////////////
+    try {
+      const res = await fetch("/api/postmessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          recipientId: appointment.patientId,
+          recipientName: appointment.patientName,
+          senderId: currentUser.clinicId,
+          senderName: (currentUser.name + " at " + currentUser.clinicName),
+          senderEmail: currentUser.email,
+          senderPhone: currentUser.phone,
+          timestamp: Date.now(),
+          message: `You have a new receipt from ${currentUser.clinicName}`,
+          receiptId: newReceipt._id,
+          type: "receipt",
+          status: "n/a",
+          read: false
+        })
+      });
+      const data = await res.json();
+
+      if (data.status === 201) {
+        console.log(`posted notification message to patient`);
+      } else {
+        window.alert(`got unexpected status:
+        ${data.status}: ${data.message}`);
+      }
+    } catch (err) {
+      console.log(`issueReceipt caught an error while posting message:`);
+      console.log(err);
+      window.alert(`issueReceipt caught an error while posting message...`);
+    }
+    ///////////////////////////////////////////////////////////////////////
     history.push("/myappointments");
   };
 

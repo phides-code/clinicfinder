@@ -45,6 +45,7 @@ const ViewMessage = () => {
             patientEmail: message.senderEmail,
             patientPhone: message.senderPhone,
             date: message.requestedDate,
+            serviceCategory: message.serviceCategory,
             clinicId: currentUser.clinicId,
             clinicName: currentUser.clinicName,
             requestId: message._id,
@@ -173,6 +174,12 @@ const ViewMessage = () => {
         <div>
           <button name="confirm" onClick={postReply}>Confirm</button>
           <button name="deny" onClick={postReply}>Deny</button>
+        </div>
+      }
+      {
+        (message.type === "receipt")  &&
+        <div>
+          <Link to={`/viewdocument/${message.receiptId}`}>View receipt</Link>
         </div>
       }
       <div><Link to="/messages">Back to Messages</Link></div>

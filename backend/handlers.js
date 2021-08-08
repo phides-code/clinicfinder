@@ -581,6 +581,86 @@ const postDocument = async (req, res) => {
   console.log("disconnected from db");
 };
 
+const getDocumentById = async (req, res) => {
+  console.log(`looking up document id: ${req.body.documentId}`);
+  console.log(`requesting id: ${req.body.requestingId}`);
+  
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const result = await db.collection("documents").findOne(
+      { _id: req.body.documentId }
+    );
+
+    if (result) {
+      // check if the requesting ID is the patient or clinic of this receipt
+      if (req.body.requestingId === result.patientId || req.body.requestingId === result.clinicId) {
+        // if ok, respond with the document 
+        res.status(200).json({ 
+          status: 200, message: "ok", 
+          document: result
+        });
+      } else {
+        // otherwise, respond unauthorized
+        res.status(403).json({ 
+          status: 403, message: "unauthorized", 
+        });
+      }
+    } else {
+      res.status(404).json({ status: 404, message: "document not found" });
+    }
+
+  } catch (err) {
+    console.log(`getDocumentByApptId caught an error: `);
+    console.log(err);
+    res.status(404).json({ status: 404, message: "getDocumentByApptId caught an error" });
+  }
+  client.close();
+  console.log("disconnected from db");
+
+};
+
+const getDocuments = async (req, res) => {
+  console.log(`retrieving documents with params: `);
+  console.log(req.body.queryParams);
+
+  const client = new MongoClient (MONGO_URI, options);
+  await client.connect();
+  const db = client.db("healthdb");
+  console.log("connected to db");
+
+  try {
+    const results = await db.collection("documents").find(
+      req.body.queryParams
+    ).toArray();
+
+    if (results) {
+      res.status(200).json({
+        status: 200, message: "ok",
+        documents: results
+      });
+    } else {
+      res.status(404).json({
+        status: 404, message: "no documents found",
+        documents: "no documents found"
+      });
+    }
+
+  } catch (err) {
+    console.log(`caught error getting documents`);
+    console.log(err);
+    res.status(404).json({
+      status: 404, message: err,
+      documents: "getDocuments caught error"
+    });
+  }
+  client.close();
+  console.log("disconnected from db");
+};
+
 const getPatients = async (req, res) => {
   console.log(`retrieving patients for clinic ${req.body.clinicId}: `);
 
@@ -638,5 +718,7 @@ module.exports = {
   getAppointmentById,
   updateAppointment,
   postDocument,
+  getDocumentById,
+  getDocuments,
   getPatients
 };

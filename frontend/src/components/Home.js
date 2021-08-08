@@ -71,6 +71,13 @@ const Home = () => {
               View my messages
             </Link>
           </div>
+
+          <div>
+            <Link to="/documents">
+              View my documents
+            </Link>
+          </div>
+
         </div>
       }
     </div>
