@@ -17,8 +17,15 @@ const Header = () => {
         {
           currentUser ?
             <>
-              {currentUser.userType === "patient" &&
-                <HeaderSection><Link to="/findaprovider">Find a healthcare provider</Link></HeaderSection>}
+              {
+                currentUser.userType === "patient" ?
+                <HeaderSection>
+                  <Link to="/findaprovider">Find a healthcare provider</Link>
+                </HeaderSection> :
+                <HeaderSection>
+                  My Clinic: <Link to={`/clinicdetail/${currentUser.clinicId}`}>{currentUser.clinicName}</Link>
+                </HeaderSection>
+              }
               <HeaderSection>
                 <div>
                   Welcome, {` `} 

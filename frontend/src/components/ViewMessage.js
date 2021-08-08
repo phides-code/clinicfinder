@@ -84,7 +84,7 @@ const ViewMessage = () => {
           timestamp: Date.now(),
           message: messageText,
           type: "reply",
-          // status: replyType,
+          status: replyType,
           read: false
         })
       });

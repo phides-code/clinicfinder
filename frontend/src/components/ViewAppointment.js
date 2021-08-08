@@ -97,6 +97,7 @@ const ViewAppointment = () => {
       clinicId: appointment.clinicId,
       clinicName: appointment.clinicName,
       appointmentDate: appointment.date,
+      timestamp: Date.now(),
       type: "receipt"
     };
     try {
@@ -128,14 +129,13 @@ const ViewAppointment = () => {
     appointment ?
     <div>
       <div>Name: {appointment.patientName}</div>
-      <div>Clinic: {appointment.clinicName}</div>
+      <div>Clinic: <Link to={`/clinicdetail/${appointment.clinicId}`}>{appointment.clinicName}</Link></div>
       <div>Date: {appointment.date}</div>
       <hr/>
       
       { (currentUser.userType === "clinician")  &&
         <div>
           <button name="receipt" onClick={issueReceipt}>Issue Receipt</button>
-          {/* <button name="deny" onClick={postReply}>Deny</button> */}
         </div>
       }
       <div><Link to="/myappointments">Back to appointments</Link></div>

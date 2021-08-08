@@ -51,7 +51,13 @@ const Profile = () => {
   return (
     profile ? 
     <div>
-      <div><h1>User profile: {profile._id}</h1></div>
+      <div><h1>
+        {
+          (profile._id === currentUser._id) ?
+            <>My </> :
+            <>User </>
+        }
+        profile: {profile._id}</h1></div>
       <div>{profile.name}</div>
       <div>{profile.userType}
         {
@@ -63,9 +69,8 @@ const Profile = () => {
       <div>{profile.email}</div>
       <div>{profile.phone}</div>
       {
-        // (profile.userType === "patient" && currentUser.userType === "clinician") &&
-        (profile.userType === "patient") &&
-        <> Upcoming appointments: </>
+        (profile.userType === "patient" && currentUser.userType === "clinician") &&
+        <> Upcoming appointments at {currentUser.clinicName}: </>
       }
     </div> :
     <div>Loading ... </div>
