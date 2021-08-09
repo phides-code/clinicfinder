@@ -70,12 +70,12 @@ const Login = () => {
       {/* <div> */}
         <LoginForm onSubmit={userLogin}>
           <div><label>Patient or Clinician ID: </label></div>
-          <div><input name="patientId" required></input></div>
+          <div><StyledInput name="patientId" required/></div>
           
           <div><label>Password: </label></div>
-          <div><input type="password" name="password" required></input></div>
+          <div><StyledInput type="password" name="password" required /></div>
           {
-            invalidUser && <div>*** Invalid Login ***</div>
+            invalidUser && <InvalidLogin>*** Invalid Login ***</InvalidLogin>
           }
           <LoginDiv>
             <LoginButton type="submit" value="Login"/>
@@ -88,11 +88,26 @@ const Login = () => {
   );
 };
 
+const StyledInput = styled.input`
+  min-width: 260px;
+`;
+
+const InvalidLogin = styled.div`
+  margin-top: 10px;
+  color: red;
+`;
+
 const LoginForm = styled.form``;
 
 const LoginButton = styled.input`
   margin: 20px 0px;
   padding: 10px 20px;
+  background: lightblue;
+  border: none;
+  border-radius: 5px;
+  &:active {
+    opacity: 60%;
+  }
 `;
 
 const LoginDiv = styled.div`

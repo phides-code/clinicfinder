@@ -87,51 +87,51 @@ const Signup = () => {
         <form onSubmit={postNewUser}>
           <div>
             <label>Name: </label></div>
-            <div><input name="name" type="text" required />
+            <div><StyledInput name="name" type="text" required />
           </div>
           <div>
             <label>Email: </label></div>
-            <div><input name="email" type="email" required />
+            <div><StyledInput name="email" type="email" required />
           </div>
           <div>
             <label>Phone: </label></div>
-            <div><input name="phone" type="phone" required />
+            <div><StyledInput name="phone" type="phone" required />
           </div>
           <div>
             <label>Address: </label></div>
-            <div><input name="address" type="address" required />
+            <div><StyledInput name="address" type="address" required />
           </div>
           <div>
             <label>City: </label></div>
-            <div><input name="city" type="text" required />
+            <div><StyledInput name="city" type="text" required />
           </div>
           <div>
             <label>Province: </label></div>
-          <div><input name="province" type="text" required />
+          <div><StyledInput name="province" type="text" required />
           </div>
           <div>
             <label>Postal Code: </label></div>
-            <div><input name="postalcode" type="text" required />
+            <div><StyledInput name="postalcode" type="text" required />
           </div>
           <div>
             <label>Country: </label></div>
-            <div><input name="country" type="text" required />
+            <div><StyledInput name="country" type="text" required />
           </div>
 
           <div>
             <label htmlFor="password">Password: </label></div>
-            <div><input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
+            <div><StyledInput type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
           </div>
 
           <div>
             <label htmlFor="confirm_password">Confirm Password: </label></div>
-            <div><input type="password" placeholder="Confirm Password" id="confirm_password" required />
+            <div><StyledInput type="password" placeholder="Confirm Password" id="confirm_password" required />
           </div>
 
           <SignupDiv>
             <SignupButton type="submit" value="Submit" />
             {/* <button type="reset">Reset</button> */}
-            <SignupButton type="reset"/>
+            <ResetButton type="reset"/>
           </SignupDiv>
         </form>
 
@@ -146,6 +146,10 @@ const Signup = () => {
   );
 };
 
+const StyledInput = styled.input`
+  min-width: 260px;
+`;
+
 const Wrapper = styled.div`
   border-radius: 10px;
   margin: 50px 50px;
@@ -159,8 +163,25 @@ const Wrapper = styled.div`
 `;
 
 const SignupButton = styled.input`
-  margin: 20px 0px;
+  margin: 20px 5px;
   padding: 10px 20px;
+  background: lightblue;
+  border: none;
+  border-radius: 5px;
+  &:active {
+    opacity: 60%;
+  }
+`;
+
+const ResetButton = styled.input`
+  margin: 20px 5px;
+  padding: 10px 20px;
+  background: lightpink;
+  border: none;
+  border-radius: 5px;
+  &:active {
+    opacity: 60%;
+  }
 `;
 
 const SignupDiv = styled.div`

@@ -5,13 +5,14 @@ const Footer = () => {
 
   return (
     <Wrapper>
-      Healthcare-App © 2021
+      HealthcareFinder © 2021
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  padding-top: 2%;
+  padding-top: 10px;
+  padding-bottom: 10px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;

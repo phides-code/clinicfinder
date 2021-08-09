@@ -41,9 +41,9 @@ const Home = () => {
   }, [currentUser]);
 
   return (
-    <div>
+    <Wrapper>
       {
-        currentUser &&
+        currentUser ?
         <div>
           {
             (currentUser.userType === "patient") ?
@@ -78,10 +78,112 @@ const Home = () => {
             </Link>
           </div>
 
-        </div>
+        </div> :
+        <LoginSignupArea>
+          <LoginDiv>
+            <LoginButton onClick={() => {
+              history.push("/login")
+            }}>Login</LoginButton>
+          </LoginDiv>
+
+          <SignupDiv>
+            <PatientSignup>
+              <PatientSignupButton onClick={() => {
+                history.push("/signup")
+              }}>Patient Sign up</PatientSignupButton>
+            </PatientSignup>
+
+            <ClinicianSignup>
+              <ClinicianSignupButton onClick={() => {
+                history.push("/cliniciansignup")
+              }}>Clinician Sign up</ClinicianSignupButton>
+            </ClinicianSignup>
+          </SignupDiv>
+        </LoginSignupArea>
       }
-    </div>
+    </Wrapper>
   );
 };
+
+const PatientSignupButton = styled.button`
+  font-size: xx-large;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  border: none;
+  background: royalblue;
+  color: white;
+  &:active {
+    opacity: 60%;
+  }
+`;
+
+const ClinicianSignupButton = styled.button`
+  font-size: xx-large;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background: pink;
+  &:active {
+    opacity: 60%;
+  }
+`;
+
+const LoginButton = styled.button`
+  font-size: xx-large;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background: lightblue;
+  color: black;
+  &:active {
+    opacity: 60%;
+  }
+`;
+
+const LoginSignupArea = styled.div`
+  margin-top: 100px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: center;
+	align-content: stretch;
+  background-color: white;
+  padding: 20px 40px;
+  border-radius: 5px;
+`;
+
+const LoginDiv = styled.div`
+  margin-bottom: 20px;
+`;
+
+const SignupDiv = styled.div`
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: flex-start;
+	align-content: stretch;
+`;
+
+const PatientSignup = styled.div`
+  margin-right: 10px;
+
+`;
+
+const ClinicianSignup = styled.div`
+  margin-left: 10px;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: center;
+	align-content: stretch;
+
+`;
 
 export default Home;

@@ -122,35 +122,38 @@ const ClinicianSignup = () => {
 
       {(provider && provider !== "none found") ?
       <div>
-        <h3>Your Clinic:</h3>
-        <div>{provider.name}</div>
-        <div>{provider.display_phone}</div>
-        <div>{provider.location.display_address}</div>
+        <ClinicInfo>
+          <h2>Your Clinic:</h2>
+          <div>{provider.name}</div>
+          <div>{provider.display_phone}</div>
+          <div>{provider.location.display_address}</div>
+          <h2>Enter your information to register as a clinician with {provider.name}:</h2>
+        </ClinicInfo>
 
         <LoginForm onSubmit={postNewUser}>
-          <h3>Enter your information to register as a clinician with {provider.name}:</h3>
+          
           <div>
             <label>Name: </label></div>
-            <div><input name="name" type="text" required />
+            <div><StyledInput name="name" type="text" required />
           </div>
           <div>
             <label>Email: </label></div>
-            <div><input name="email" type="email" required />
+            <div><StyledInput name="email" type="email" required />
           </div>
 
           <div>
             <label htmlFor="password">Create a Password: </label></div>
-            <div><input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
+            <div><StyledInput type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
           </div>
 
           <div>
             <label htmlFor="confirm_password">Confirm Password</label></div>
-            <div><input type="password" placeholder="Confirm Password" id="confirm_password" required />
+            <div><StyledInput type="password" placeholder="Confirm Password" id="confirm_password" required />
           </div>
 
           <SignupDiv>
             <SignupButton type="submit" value="Submit" />
-            <SignupButton onClick={() => {setProvider(null);}} type="reset" value="Reset"/>
+            <ResetButton onClick={() => {setProvider(null);}} type="reset" value="Reset"/>
           </SignupDiv>
         </LoginForm>
 
@@ -167,6 +170,17 @@ const ClinicianSignup = () => {
     </Wrapper>
   );
 };
+
+const ClinicInfo = styled.div`
+  background-color: lightgray;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-bottom: 5px;
+`;
+
+const StyledInput = styled.input`
+  min-width: 260px;
+`;
 
 const LoginForm = styled.form`
   display: flex;
@@ -191,8 +205,25 @@ const Wrapper = styled.div`
 `;
 
 const SignupButton = styled.input`
-  margin: 20px 0px;
+  margin: 20px 5px;
   padding: 10px 20px;
+  background: lightblue;
+  border: none;
+  border-radius: 5px;
+  &:active {
+    opacity: 60%;
+  }
+`;
+
+const ResetButton = styled.input`
+  margin: 20px 5px;
+  padding: 10px 20px;
+  background: lightpink;
+  border: none;
+  border-radius: 5px;
+  &:active {
+    opacity: 60%;
+  }
 `;
 
 const SignupDiv = styled.div`
