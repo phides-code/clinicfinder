@@ -21,6 +21,7 @@ import ViewAppointment from "./ViewAppointment";
 import ViewPatients from "./ViewPatients";
 import ViewDocument from "./ViewDocument";
 import Documents from "./Documents";
+import clinicImg from "../assets/clinic.jpeg";
 
 const App = () => {
   const {
@@ -174,7 +175,11 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.div`
-  background-color: lightblue;
+  /* background-image: url(${clinicImg});
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;*/
+  background-color: lightblue; 
   min-height: 580px;
 `;
 

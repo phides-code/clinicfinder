@@ -71,15 +71,26 @@ const ViewDocument = () => {
       <div>Service Date: {document.appointmentDate}</div>
       <div>Service Category: {document.serviceCategory}</div>
       
-      <div onClick={() => {history.goBack();}}>Back</div>
+      <BackButton onClick={() => {history.goBack();}}>Back</BackButton>
     </div> :
     <div>Loading ... </div>
 
   );
 };
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: royalblue;
+  &:visited {
+    text-decoration: none;
+    color: royalblue;
+  }
+`;
+
+
 const BackButton = styled.div`
-  cursor: pointer
+  cursor: pointer;
+  color: royalblue;
 `;
 
 export default ViewDocument;

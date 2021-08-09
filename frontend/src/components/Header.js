@@ -88,8 +88,8 @@ const ProfileLink = styled(Link)`
 `;
 
 const MainIcon = styled.img`
-  margin-left: 5px;
-  margin-top: 10px;
+  /* margin-left: 5px; */
+  margin: 10px;
   height: 40px;
   display: flex;
 	flex-direction: row;
@@ -97,6 +97,10 @@ const MainIcon = styled.img`
 	justify-content: space-between;
 	align-items: center;
 	align-content: center;
+  transition: transform .2s;
+  &:hover{
+      transform: scale(1.1); 
+    }
 `;
 
 const HomeLink = styled(Link)`
@@ -106,14 +110,14 @@ const HomeLink = styled(Link)`
 `;
 
 const HeaderSection = styled.div`
-  padding-top: 1%;
-  padding-bottom: 2%;
+  /* padding-top: 1%;
+  padding-bottom: 2%; */
 `;
 
 const RightHeaderSection = styled.div`
-  margin-right: 20px;
-  padding-top: 1%;
-  padding-bottom: 2%;
+  margin-right: 10px;
+  /* padding-top: 1%;
+  padding-bottom: 2%; */
   display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;

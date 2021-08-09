@@ -59,8 +59,8 @@ const Messages = () => {
 
   return (
     messages ?
-      <div>
-        <h1>Messages:</h1>
+      <Wrapper>
+        <h1>My Messages:</h1>
         {
           messages.length !== 0 ?
             <MessageList>
@@ -76,11 +76,12 @@ const Messages = () => {
                     return(
                       <div key={message._id}>
                         <hr/> {message.read === false && <>NEW</>}
-                        <Link to={`/viewmessage/${message._id}`}>
-                          <div>{message.senderName}{` - `}{message.type}</div>
-                          <div>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
-                          <div>Status: {message.status}</div>
-                        </Link>
+                        <StyledLink to={`/viewmessage/${message._id}`}>
+                          <div><strong>From: </strong>{message.senderName}{` - `}{message.type}</div>
+                          <div><strong>Date: </strong>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+                          <div><strong>Message type: </strong> {message.type}</div>
+                          <div><strong>Status: </strong> {message.status}</div>
+                        </StyledLink>
                       </div>
                     )
                   }
@@ -106,11 +107,12 @@ const Messages = () => {
                       <div key={message._id}>
                         <hr/>
                         {/* <hr/> {message.read === false && <>NEW</>} */}
-                        <Link to={`/viewmessage/${message._id}`}>
-                          <div>{message.senderName}{` - `}{message.type}</div>
-                          <div>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
-                          <div>Status: {message.status}</div>
-                        </Link>
+                        <StyledLink to={`/viewmessage/${message._id}`}>
+                          <div><strong>To: </strong>{message.recipientName}</div>
+                          <div><strong>Date: </strong>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+                          <div><strong>Message type: </strong> {message.type}</div>
+                          <div><strong>Status: </strong> {message.status}</div>
+                        </StyledLink>
                       </div>
                     )
                   }
@@ -119,12 +121,28 @@ const Messages = () => {
             </MessageList> :
             <div>No messages found.</div>
         }
-      </div> : 
-      <div>
+      </Wrapper> : 
+      <Wrapper>
         Loading ...
-      </div>
+      </Wrapper>
   );
 };
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: royalblue;
+  &:visited {
+    text-decoration: none;
+    color: royalblue;
+  }
+`;
+
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+`;
 
 const MessageList = styled.div`
   display: flex;

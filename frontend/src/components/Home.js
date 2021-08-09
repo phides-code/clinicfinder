@@ -3,6 +3,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
+import appointmentsImg from "../assets/appointments.svg";
+import findProviderImg from "../assets/findaprovider.svg";
+import messagesImg from "../assets/mail.svg";
+import receiptsImg from "../assets/receipts.svg";
+import patientsImg from "../assets/patients.svg";
 
 const Home = () => {
   const history = useHistory();
@@ -44,41 +49,48 @@ const Home = () => {
     <Wrapper>
       {
         currentUser ?
-        <div>
-          {
-            (currentUser.userType === "patient") ?
-              <div>
-                <Link to="/findaprovider">
-                  Find a healthcare provider
-                </Link>
-              </div> 
-            : clinic &&
-              <div>
-                <Link to="/viewpatients">
-                  View patients at {clinic.name}
-                </Link>
-              </div>
-          }
+        <MainGrid>
+          <MenuRow>
+            {
+              (currentUser.userType === "patient") ?
+                <MenuIcon>
+                  <StyledLink to="/findaprovider">
+                    <StyledImg src={findProviderImg} />
+                    Find a Clinic
+                  </StyledLink>
+                </MenuIcon> 
+              : clinic &&
+                <MenuIcon>
+                  <StyledLink to="/viewpatients">
+                    <StyledImg src={patientsImg}/>
+                    Patients
+                  </StyledLink>
+                </MenuIcon>
+            }
+            <MenuIcon>
+              <StyledLink to="/myappointments">
+                <StyledImg src={appointmentsImg}/>
+                Appointments
+              </StyledLink>
+            </MenuIcon>
+          </MenuRow>
 
-          <div>
-            <Link to="/myappointments">
-              View my appointments
-            </Link>
-          </div>
+          <MenuRow>
+            <MenuIcon>
+              <StyledLink to="/messages">
+                <StyledImg src={messagesImg}/>
+                Messages
+              </StyledLink>
+            </MenuIcon>
+            <MenuIcon>
+              <StyledLink to="/documents">
+                <StyledImg src={receiptsImg}/>
+                Receipts
+              </StyledLink>
+            </MenuIcon>
+          </MenuRow>
 
-          <div>
-            <Link to="/messages">
-              View my messages
-            </Link>
-          </div>
-
-          <div>
-            <Link to="/documents">
-              View my documents
-            </Link>
-          </div>
-
-        </div> :
+        </MainGrid> :
         <LoginSignupArea>
           <LoginDiv>
             <LoginButton onClick={() => {
@@ -104,6 +116,54 @@ const Home = () => {
     </Wrapper>
   );
 };
+
+const StyledImg = styled.img`
+  transition: transform .2s;
+  &:hover{
+      transform: scale(1.1); 
+    }
+`;
+
+const StyledLink = styled(Link)`
+font-size: large;
+  text-decoration: none;
+  color: black;
+  margin: 0 auto;
+  &:visited {
+    color: black;
+  }
+  &:hover {
+    opacity: 90%;
+  }
+`;
+
+const MenuIcon = styled.div`
+  height: 120px;
+  width: 120px;
+  /*min-width: 100px; */
+  /* min-height: 200px; */
+
+  background-color: lightblue;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 20px;
+`;
+
+const MenuRow = styled.div`
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: stretch;
+`;
+
+const MainGrid = styled.div`
+  background-color: white;
+  border-radius: 10px;
+  margin: 50px 50px;
+  padding: 20px 20px;
+`;
 
 const PatientSignupButton = styled.button`
   font-size: xx-large;
@@ -183,7 +243,6 @@ const Wrapper = styled.div`
 	justify-content: flex-start;
 	align-items: center;
 	align-content: stretch;
-
 `;
 
 export default Home;

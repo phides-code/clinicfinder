@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 const moment = require('moment');
 
 const ViewAppointment = () => {
@@ -165,10 +166,13 @@ const ViewAppointment = () => {
 
   return (
     appointment ?
-    <div>
-      <div>Name: {appointment.patientName}</div>
-      <div>Clinic: <Link to={`/clinicdetail/${appointment.clinicId}`}>{appointment.clinicName}</Link></div>
-      <div>Date: {appointment.date}</div>
+    <Wrapper>
+      <div>
+        <strong>Appointment for:</strong> {appointment.patientName} at <StyledLink to={`/clinicdetail/${appointment.clinicId}`}>{appointment.clinicName}</StyledLink>
+      </div>
+      <div><strong>Date:</strong> {appointment.date}</div>
+      <div><strong>Service requested:</strong> {appointment.serviceCategory}</div>
+      <div><strong>Status:</strong> {appointment.status}</div>
       <hr/>
       
       { (currentUser.userType === "clinician")  &&
@@ -176,10 +180,26 @@ const ViewAppointment = () => {
           <button name="receipt" onClick={issueReceipt}>Issue Receipt</button>
         </div>
       }
-      <div><Link to="/myappointments">Back to appointments</Link></div>
-    </div> :
-    <div>Loading ... </div>
+      <div><StyledLink to="/myappointments">Back to appointments</StyledLink></div>
+    </Wrapper> :
+    <Wrapper>Loading ... </Wrapper>
   );
 };
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: royalblue;
+  &:visited {
+    text-decoration: none;
+    color: royalblue;
+  }
+`;
+
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+`;
 
 export default ViewAppointment;

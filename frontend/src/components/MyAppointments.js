@@ -59,7 +59,7 @@ const MyAppointments = () => {
 
   return (
     appointments ?
-    <div>
+    <Wrapper>
       <h1>Upcoming Appointments :</h1>
       {
         appointments.length !== 0 ?
@@ -76,12 +76,11 @@ const MyAppointments = () => {
                   return(
                     <div key={appointment._id}>
                       <hr/> 
-                      <Link to={`/viewappointment/${appointment._id}`}>
-                        <div>Patient: {appointment.patientName}</div>
-                        <div>Date: {appointment.date}</div>
-                        <div>Service Category: {appointment.serviceCategory}</div>
-                        <div>Status: {appointment.status}</div>
-                      </Link>
+                      <StyledLink to={`/viewappointment/${appointment._id}`}>
+                        <div><strong>Clinic:</strong> {appointment.clinicName}</div>
+                        <div><strong>Service Category:</strong> {appointment.serviceCategory}</div>
+                        <div><strong>Date:</strong> {appointment.date}</div>
+                      </StyledLink>
                     </div>
                   )
                 }
@@ -104,12 +103,11 @@ const MyAppointments = () => {
                   return(
                     <div key={appointment._id}>
                       <hr/> 
-                      {/* {appointment.read === false && <>NEW</>} */}
-                      <Link to={`/viewappointment/${appointment._id}`}>
-                        <div>Patient: {appointment.patientName}</div>
-                        <div>Date: {appointment.date}</div>
-                        <div>Status: {appointment.status}</div>
-                      </Link>
+                      <StyledLink to={`/viewappointment/${appointment._id}`}>
+                        <div><strong>Clinic:</strong> {appointment.clinicName}</div>
+                        <div><strong>Service Category:</strong> {appointment.serviceCategory}</div>
+                        <div><strong>Date:</strong> {appointment.date}</div>
+                      </StyledLink>
                     </div>
                   )
                 }
@@ -118,17 +116,32 @@ const MyAppointments = () => {
           </AppointmentList> :
           <div>No appointments found.</div>
       }
-    </div> : 
-    <div>
+    </Wrapper> : 
+    <Wrapper>
       Loading ...
-    </div>
+    </Wrapper>
   );
 };
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: royalblue;
+  &:visited {
+    text-decoration: none;
+    color: royalblue;
+  }
+`;
 
 const AppointmentList = styled.div`
   display: flex;
 	flex-direction: column-reverse;
 `;
 
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+`;
 
 export default MyAppointments;

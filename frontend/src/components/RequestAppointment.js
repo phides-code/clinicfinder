@@ -77,8 +77,8 @@ const RequestAppointment = ({clinic}) => {
 
           <div>Message (optional): </div>
           <div><MessageText name="messagetext"/></div>
-          <input type="submit" value="Send"/>
-          <button onClick={() => {setRequestAppointment(false)}}>Cancel</button>
+          <SendButton type="submit" value="Send"/>
+          <ResetButton onClick={() => {setRequestAppointment(false)}}>Cancel</ResetButton>
         </form>
     </div>
   );
@@ -87,6 +87,28 @@ const RequestAppointment = ({clinic}) => {
 const MessageText = styled.textarea`
   width: 300px;
   height: 200px;
+`;
+
+const SendButton = styled.input`
+  margin: 0px 5px;
+  padding: 10px 20px;
+  background: lightblue;
+  border: none;
+  border-radius: 5px;
+  &:active {
+    opacity: 60%;
+  }
+`;
+
+const ResetButton = styled.button`
+  margin: 0px 5px;
+  padding: 10px 20px;
+  background: lightpink;
+  border: none;
+  border-radius: 5px;
+  &:active {
+    opacity: 60%;
+  }
 `;
 
 export default RequestAppointment;

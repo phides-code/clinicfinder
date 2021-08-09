@@ -4,6 +4,7 @@ import { UserContext } from "./UserContext";
 import { useHistory } from "react-router";
 import RequestAppointment from "./RequestAppointment";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const ClinicDetail = () => {
   const history = useHistory();
@@ -46,31 +47,111 @@ const ClinicDetail = () => {
 
   return (
     clinic ?
-      <div>
-        <h1>{clinic.name}</h1>
-        <div>{clinic.location.display_address}</div>
-        <div>{clinic.display_phone}</div>
-        <div>Services offered: </div>
+      <Wrapper>
+        <ClinicInfo>
+          <LeftColumn>
+            {/* <StyledLink to="/findaprovider">{`< go back`}</StyledLink> */}
+            <BackButton onClick={() => {history.goBack();}}>Back</BackButton>
 
-          {
-            clinic.categories.map(category => {
-              return <div>{category.title}</div>;
-            })
-          }
-        { (!messageSuccess && currentUser.userType === "patient") && 
-          <button onClick={() => {setRequestAppointment(true);}}>Request an appointment</button>
-        }
-        {requestAppointment && <RequestAppointment clinic={clinic}/>}
+            <h1>{clinic.name}</h1>
+
+            {
+              clinic.location.display_address.map((addressLine, i) => {
+                return <div key={i}>{addressLine}</div>
+              })
+            }
+
+            <div>{clinic.display_phone}</div>
+            <div><strong>Services offered:</strong> </div>
+
+            {
+              clinic.categories.map(category => {
+                return <div>{category.title}</div>;
+              })
+            }
+          </LeftColumn>
+          <RightColumn>
+            <StyledImg src={clinic.image_url}/>
+            { (!messageSuccess && currentUser.userType === "patient") && 
+              <RequestButton onClick={() => {setRequestAppointment(true);}}>Request an appointment</RequestButton>
+            }
+          </RightColumn>
+        </ClinicInfo>
+            {requestAppointment && <RequestAppointment clinic={clinic}/>}
+          
+        
         {messageSuccess && 
           <div>
             <div>Message sent !</div>
-            <div><Link to="/">Click to return to the homepage</Link></div>
+            <div><StyledLink to="/">Click to return to the homepage</StyledLink></div>
           </div>
         }
-      </div> 
+      </Wrapper> 
     : 
-      <div>Loading ... </div>
+      <Wrapper>Loading ... </Wrapper>
   );
 };
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: royalblue;
+  &:visisted {
+    text-decoration: none;
+    color: royalblue;
+  }
+`;
+
+const RightColumn = styled.div`
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-end;
+	align-content: stretch;
+
+`;
+const LeftColumn = styled.div`
+  display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: stretch
+`;
+
+const StyledImg = styled.img`
+  height: 100px;
+`;
+
+const ClinicInfo = styled.div`
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: stretch;
+	align-content: stretch;
+`;
+
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+`;
+
+const RequestButton = styled.button`
+  margin: 20px 5px;
+  padding: 10px 20px;
+  background: lightblue;
+  border: none;
+  border-radius: 5px;
+  &:active {
+    opacity: 60%;
+  }
+`;
+
+const BackButton = styled.div`
+  cursor: pointer;
+  color: royalblue;
+`;
 
 export default ClinicDetail;

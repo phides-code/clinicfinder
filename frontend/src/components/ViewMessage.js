@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 const moment = require('moment');
 
 const ViewMessage = () => {
@@ -31,7 +32,7 @@ const ViewMessage = () => {
     let messageText;
     let replyType;
     if (ev.target.name === "confirm") {
-      messageText = "your appointment has been confirmed";
+      messageText = `your appointment request for ${message.serviceCategory} at ${currentUser.clinicName} on ${message.requestedDate} has been confirmed`;
       replyType = "confirmed";
 
       // if confirmed, creating appointment in db
@@ -83,6 +84,7 @@ const ViewMessage = () => {
           senderEmail: currentUser.email,
           senderPhone: currentUser.phone,
           timestamp: Date.now(),
+          requestedDate: message.requestedDate,
           message: messageText,
           type: "reply",
           status: replyType,
@@ -160,14 +162,20 @@ const ViewMessage = () => {
 
   return (
     message ?
-    <div>
-      <div>Type: {message.type}</div>
-      <div>Status: {message.status}</div>
-      <div>From: {message.senderName}</div>
-      <div>To: {message.recipientName}</div>
-      <div>Sent: {moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+    <Wrapper>
+      <div><strong>From:</strong> {message.senderName}</div>
+      <div><strong>To:</strong> {message.recipientName}</div>
+      <div><strong>Sent:</strong> {moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+      <div><strong>Type:</strong> {message.type}</div>
+
+      {
+        (message.type === "appointmentRequest" || message.type === "reply") &&
+        <div>
+          <div><strong>Status:</strong> {message.status}</div>
+          <div><strong>Requested Date:</strong> {message.requestedDate}</div>
+        </div>
+      }
       <hr/>
-      <div>Message: {message.requestedDate}</div>
       <div>{message.message}</div>
       
       { (currentUser.userType === "clinician")  &&
@@ -179,13 +187,29 @@ const ViewMessage = () => {
       {
         (message.type === "receipt")  &&
         <div>
-          <Link to={`/viewdocument/${message.receiptId}`}>View receipt</Link>
+          <StyledLink to={`/viewdocument/${message.receiptId}`}>View receipt</StyledLink>
         </div>
       }
-      <div><Link to="/messages">Back to Messages</Link></div>
-    </div> :
-    <div>Loading ... </div>
+      <div><StyledLink to="/messages">Back to Messages</StyledLink></div>
+    </Wrapper> :
+    <Wrapper>Loading ... </Wrapper>
   );
 };
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: royalblue;
+  &:visited {
+    text-decoration: none;
+    color: royalblue;
+  }
+`;
+
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+`;
 
 export default ViewMessage;
