@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { UserContext } from "./UserContext";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const Profile = () => {
   const history = useHistory();
@@ -10,6 +12,7 @@ const Profile = () => {
 
   const [profile, setProfile] = useState(null);
   const { currentUser } = useContext(UserContext);
+  const [appointments, setAppointments] = useState(null);
   const localUserId = localStorage.getItem("healthUser");
 
   useEffect( () => {
@@ -28,7 +31,37 @@ const Profile = () => {
           const data = await res.json();
 
           if (data.status === 200) {
+            console.log(`got profile:`);
+            console.log(data.profile);
             setProfile(data.profile);
+
+            // if a clinician is viewing a patient, also fetch their appointments
+            if (currentUser.userType === "clinician" && data.profile.userType === "patient") {
+              try {
+                const apptRes = await fetch (`/api/getappointments`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ 
+                    viewerId: data.profile._id,
+                    viewerType: "patient"
+                  })
+                });
+                const apptData = await apptRes.json();
+          
+                if (apptData.status === 200) {
+                  console.log(`got appointments`);
+                  console.log(apptData.appointments);
+                  setAppointments(apptData.appointments);
+                } else {
+                  console.log("no appointments found");
+                  setAppointments(null);
+                }
+              } catch (err) {
+                console.log(`caught error fetching appointments`);
+                console.log(err);
+              }
+            }
+            ////////////////////////////////////////////////////////////////////////////////////
           } else if (data.status === 403) {
             console.log("unauthorized");
             console.log(data.message);
@@ -44,37 +77,84 @@ const Profile = () => {
           console.log(err);
           window.alert(`caught error fetching profile`);
         }
+
       })();
     }
   }, [id]);
 
   return (
     profile ? 
-    <div>
+    <Wrapper>
       <div><h1>
         {
           (profile._id === currentUser._id) ?
             <>My </> :
             <>User </>
         }
-        profile: {profile._id}</h1></div>
-      <div>{profile.name}</div>
-      <div>{profile.userType}
+        profile</h1></div>
+      <div><strong>ID:</strong> {profile._id}</div>
+      <div><strong>Name:</strong> {profile.name}</div>
+      <div><strong>Type:</strong> {profile.userType}
         {
           (profile.userType === "clinician") && 
           <> with {profile.clinicName}</>
         }
       </div>
-      <div>{profile.address}</div>
-      <div>{profile.email}</div>
-      <div>{profile.phone}</div>
+      <div><p><strong>Address:</strong></p>{profile.address}</div>
+      <div>{profile.city}, {profile.province}</div>
+      <div>{profile.postalcode}</div>
+      <div><strong>Email:</strong> {profile.email}</div>
+      <div><strong>Phone:</strong> {profile.phone}</div>
       {
         (profile.userType === "patient" && currentUser.userType === "clinician") &&
-        <> Upcoming appointments at {currentUser.clinicName}: </>
+        <div>
+          <hr/>
+          <strong>Upcoming appointments at {currentUser.clinicName}:</strong> 
+        </div>
       }
-    </div> :
-    <div>Loading ... </div>
+      {
+        appointments &&
+        <div>
+          {
+            (appointments.filter(appointment => appointment.status !== "completed" && 
+            appointment.clinicName === currentUser.clinicName).length === 0) 
+            && <>None found</>
+          }
+          {
+            appointments.map(appointment => {
+              if (appointment.status !== "completed" && 
+              appointment.clinicName === currentUser.clinicName ) {
+                return (
+                  <div>
+                    <StyledLink to={`/viewappointment/${appointment._id}`}>
+                      {appointment.date} - {appointment.serviceCategory}
+                    </StyledLink>
+                  </div>
+                )
+              }
+            })
+          }
+        </div>
+      }
+    </Wrapper> :
+    <Wrapper>Loading ... </Wrapper>
   );
 };
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: royalblue;
+  &:visited {
+    text-decoration: none;
+    color: royalblue;
+  }
+`;
+
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+`;
 
 export default Profile;

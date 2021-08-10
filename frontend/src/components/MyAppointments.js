@@ -43,9 +43,9 @@ const MyAppointments = () => {
             setAppointments(data.appointments);
           } else {
             console.log("no appointments found");
-            console.log(data.appointments);
+            // console.log(data.appointments);
             // window.alert("no appointments found");
-            setAppointments([]);
+            setAppointments(null);
           }
         
         } catch (err) {
@@ -60,7 +60,7 @@ const MyAppointments = () => {
   return (
     appointments ?
     <Wrapper>
-      <h1>Upcoming Appointments :</h1>
+      <h2>Upcoming Appointments :</h2>
       {
         appointments.length !== 0 ?
           <AppointmentList>
@@ -89,7 +89,7 @@ const MyAppointments = () => {
           </AppointmentList> :
           <div>No appointments found.</div>
       }
-      <h1>Completed Appointments :</h1>
+      <h2>Completed Appointments :</h2>
       {
         appointments.length !== 0 ?
           <AppointmentList>

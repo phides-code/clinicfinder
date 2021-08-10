@@ -180,7 +180,7 @@ const Main = styled.div`
   background-repeat: no-repeat;
   background-position: center;*/
   background-color: lightblue; 
-  min-height: 580px;
+  min-height: 535px;
 `;
 
 export default App;

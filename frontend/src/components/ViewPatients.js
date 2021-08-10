@@ -51,7 +51,7 @@ const ViewPatients = () => {
 
   return (
     patients ?
-    <div>
+    <Wrapper>
       <h1>Patients for {currentUser.clinicName}:</h1>
       {
         patients.length !== 0 ?
@@ -62,7 +62,7 @@ const ViewPatients = () => {
                   <div key={patient.senderId}>
                     <hr/> 
                     <Link to={`/profile/${patient.senderId}`}>
-                      <div>Patient: {patient.senderName}</div>
+                      <div>{patient.senderName}</div>
                     </Link>
                   </div>
                 )
@@ -71,11 +71,27 @@ const ViewPatients = () => {
           </div> :
           <div>No patients found.</div>
       }
-    </div> : 
-    <div>
+    </Wrapper> : 
+    <Wrapper>
       Loading ...
-    </div>
+    </Wrapper>
   );
 };
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: royalblue;
+  &:visited {
+    text-decoration: none;
+    color: royalblue;
+  }
+`;
+
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
+`;
 
 export default ViewPatients;

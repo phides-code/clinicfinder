@@ -90,7 +90,7 @@ const MessageText = styled.textarea`
 `;
 
 const SendButton = styled.input`
-  margin: 0px 5px;
+  margin: 5px;
   padding: 10px 20px;
   background: lightblue;
   border: none;
@@ -101,7 +101,7 @@ const SendButton = styled.input`
 `;
 
 const ResetButton = styled.button`
-  margin: 0px 5px;
+  margin: 5px;
   padding: 10px 20px;
   background: lightpink;
   border: none;

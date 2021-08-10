@@ -173,14 +173,23 @@ const ViewAppointment = () => {
       <div><strong>Date:</strong> {appointment.date}</div>
       <div><strong>Service requested:</strong> {appointment.serviceCategory}</div>
       <div><strong>Status:</strong> {appointment.status}</div>
+      {/* {
+        (appointment.status === "completed") &&
+        <div><StyledLink to={`/viewdocument/${document._id}`}>View receipt</StyledLink></div>
+      } */}
       <hr/>
       
-      { (currentUser.userType === "clinician")  &&
+      { (currentUser.userType === "clinician" && appointment.status !== "completed")  &&
         <div>
           <button name="receipt" onClick={issueReceipt}>Issue Receipt</button>
         </div>
       }
-      <div><StyledLink to="/myappointments">Back to appointments</StyledLink></div>
+      <div>
+        {/* <StyledLink to="/myappointments">Back to appointments</StyledLink> */}
+        <BackButton onClick={() => {
+            history.push(`/myappointments`);
+        }}>Back to Appointments</BackButton>
+      </div>
     </Wrapper> :
     <Wrapper>Loading ... </Wrapper>
   );
@@ -192,6 +201,18 @@ const StyledLink = styled(Link)`
   &:visited {
     text-decoration: none;
     color: royalblue;
+  }
+`;
+
+const BackButton = styled.button`
+  margin-top: 5px;
+  background-color: pink;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: black;
+  &:active {
+    background-color: lightblue;
   }
 `;
 

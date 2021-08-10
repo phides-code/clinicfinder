@@ -50,7 +50,7 @@ const Signup = () => {
       province: ev.target.province.value,
       postalcode: ev.target.postalcode.value,
       country: ev.target.country.value,
-      userType: ev.target.userType.value,
+      userType: "patient",
       password: hashedPassword
     };
 

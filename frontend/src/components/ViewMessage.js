@@ -180,21 +180,84 @@ const ViewMessage = () => {
       
       { (currentUser.userType === "clinician")  &&
         <div>
-          <button name="confirm" onClick={postReply}>Confirm</button>
-          <button name="deny" onClick={postReply}>Deny</button>
+          <ConfirmButton name="confirm" onClick={postReply}>Confirm</ConfirmButton>
+          <DenyButton name="deny" onClick={postReply}>Deny</DenyButton>
         </div>
       }
       {
         (message.type === "receipt")  &&
         <div>
-          <StyledLink to={`/viewdocument/${message.receiptId}`}>View receipt</StyledLink>
+          {/* <StyledLink to={`/viewdocument/${message.receiptId}`}>View receipt</StyledLink> */}
+
+          <StyledButton onClick={() => {
+            history.push(`/viewdocument/${message.receiptId}`);
+          }}>View Receipt</StyledButton>
         </div>
+        
+
       }
-      <div><StyledLink to="/messages">Back to Messages</StyledLink></div>
+      <div>
+        {/* <StyledLink to="/messages">Back to Messages</StyledLink> */}
+        <BackButton onClick={() => {
+            history.push(`/messages`);
+        }}>Back to Messages</BackButton>
+
+      </div>
     </Wrapper> :
     <Wrapper>Loading ... </Wrapper>
   );
 };
+
+
+
+const StyledButton = styled.button`
+  margin-top: 5px;
+  background-color: royalblue;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  &:active {
+    background-color: lightblue;
+  }
+`;
+
+const ConfirmButton = styled.button`
+  margin-right: 5px;
+  margin-top: 5px;
+  background-color: green;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  &:active {
+    background-color: lightblue;
+  }
+`;
+
+const DenyButton = styled.button`
+  margin-top: 5px;
+  background-color: red;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  &:active {
+    background-color: lightblue;
+  }
+`;
+
+const BackButton = styled.button`
+  margin-top: 5px;
+  background-color: pink;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: black;
+  &:active {
+    background-color: lightblue;
+  }
+`;
 
 const StyledLink = styled(Link)`
   text-decoration: none;

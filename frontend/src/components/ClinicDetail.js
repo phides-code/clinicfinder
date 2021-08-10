@@ -83,7 +83,12 @@ const ClinicDetail = () => {
         {messageSuccess && 
           <div>
             <div>Message sent !</div>
-            <div><StyledLink to="/">Click to return to the homepage</StyledLink></div>
+            <div>
+              {/* <StyledLink to="/">Click to return to the homepage</StyledLink> */}
+              <BackButton onClick={() => {
+                history.push("/");
+              }}>Back to Home page</BackButton>
+            </div>
           </div>
         }
       </Wrapper> 
@@ -149,9 +154,21 @@ const RequestButton = styled.button`
   }
 `;
 
-const BackButton = styled.div`
+const BackButton = styled.button`
+  margin-top: 5px;
+  background-color: pink;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: black;
+  &:active {
+    background-color: lightblue;
+  }
+`;
+
+/* const BackButton = styled.div`
   cursor: pointer;
   color: royalblue;
-`;
+`; */
 
 export default ClinicDetail;

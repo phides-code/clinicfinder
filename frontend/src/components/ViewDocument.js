@@ -62,21 +62,39 @@ const ViewDocument = () => {
 
   return (
     document ?
-    <div>
-      <div>Type: {document.type}</div>
-      <div>From: {document.clinicName}</div>
-      <div>To: {document.patientName}</div>
-      <div>Sent: {moment(document.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+    <Wrapper>
+      <div><strong>Type:</strong> {document.type}</div>
+      <div><strong>From:</strong> {document.clinicName}</div>
+      <div><strong>Patient:</strong> {document.patientName}</div>
+      <div><strong>Issued:</strong> {moment(document.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
       <hr/>
-      <div>Service Date: {document.appointmentDate}</div>
-      <div>Service Category: {document.serviceCategory}</div>
+      <div><strong>Service Date: </strong>{document.appointmentDate}</div>
+      <div><strong>Service Category:</strong> {document.serviceCategory}</div>
       
-      <BackButton onClick={() => {history.goBack();}}>Back</BackButton>
-    </div> :
-    <div>Loading ... </div>
+      {/* <BackButton onClick={() => {history.goBack();}}>Back</BackButton> */}
+      <div>
+      <BackButton onClick={() => {
+            history.push(`/documents`);
+        }}>Back to Receipts</BackButton>
+      </div>
+
+    </Wrapper> :
+    <Wrapper>Loading ... </Wrapper>
 
   );
 };
+
+const BackButton = styled.button`
+  margin-top: 5px;
+  background-color: pink;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: black;
+  &:active {
+    background-color: lightblue;
+  }
+`;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -87,10 +105,16 @@ const StyledLink = styled(Link)`
   }
 `;
 
+// const BackButton = styled.div`
+//   cursor: pointer;
+//   color: royalblue;
+// `;
 
-const BackButton = styled.div`
-  cursor: pointer;
-  color: royalblue;
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
 `;
 
 export default ViewDocument;

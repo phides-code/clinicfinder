@@ -6,6 +6,12 @@ export default createGlobalStyle`
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         /* font-size: medium; */
     }
+    button {    
+        transition: transform .2s;
+        &:hover {
+            transform: scale(1.1); 
+        }
+    }
     html, body, div, span, applet, object, iframe,
         h1, h2, h3, h4, h5, h6, p, blockquote, pre,
         a, abbr, acronym, address, big, cite, code,

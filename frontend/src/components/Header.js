@@ -71,6 +71,10 @@ const LogoutButton = styled.button`
   padding: 5px 10px;
   border-radius: 5px;
   color: white;
+  transition: transform .2s;
+  &:hover {
+      transform: scale(1.1); 
+    }
   &:active {
     background-color: lightblue;
   }
@@ -98,7 +102,7 @@ const MainIcon = styled.img`
 	align-items: center;
 	align-content: center;
   transition: transform .2s;
-  &:hover{
+  &:hover {
       transform: scale(1.1); 
     }
 `;

@@ -52,11 +52,11 @@ const Documents = () => {
 
   return (
     documents ?
-      <div>
-        <h1>Documents for {currentUser.name}:</h1>
+      <Wrapper>
+        <h1>Receipts for {currentUser.name}:</h1>
         {
           documents.length !== 0 ?
-            <documentList>
+            <DocumentList>
               {
                 (documents.filter(document => document.recipientId === currentUser._id
                   || document.recipientId === currentUser.clinicId).length === 0)
@@ -67,28 +67,44 @@ const Documents = () => {
                   return(
                     <div key={document._id}>
                       <hr/> 
-                      <Link to={`/viewdocument/${document._id}`}>
-                        <div>{document.type}</div>
+                      <StyledLink to={`/viewdocument/${document._id}`}>
+                        {/* <div>{document.type} for </div> */}
                         <div>{document.serviceCategory} at {document.clinicName}</div>
                         <div>{moment(document.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
-                      </Link>
+                      </StyledLink>
                     </div>
                   )
                 })
               } 
-            </documentList> :
+            </DocumentList> :
             <div>No documents found.</div>
         }
-      </div> : 
-      <div>
+      </Wrapper> : 
+      <Wrapper>
         Loading ...
-      </div>
+      </Wrapper>
   );
 };
 
-const documentList = styled.div`
+const DocumentList = styled.div`
   display: flex;
 	flex-direction: column-reverse;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: royalblue;
+  &:visited {
+    text-decoration: none;
+    color: royalblue;
+  }
+`;
+
+const Wrapper = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  margin: 50px 50px;
+  background-color: white;
 `;
 
 export default Documents;
