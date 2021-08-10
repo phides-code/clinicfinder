@@ -208,8 +208,6 @@ const ViewMessage = () => {
   );
 };
 
-
-
 const StyledButton = styled.button`
   margin-top: 5px;
   background-color: royalblue;

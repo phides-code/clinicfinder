@@ -70,6 +70,7 @@ const ViewDocument = () => {
       <hr/>
       <div><strong>Service Date: </strong>{document.appointmentDate}</div>
       <div><strong>Service Category:</strong> {document.serviceCategory}</div>
+      <div><strong>Cost: </strong>{document.cost}</div>
       
       {/* <BackButton onClick={() => {history.goBack();}}>Back</BackButton> */}
       <div>

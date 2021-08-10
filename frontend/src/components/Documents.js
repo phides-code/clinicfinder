@@ -53,13 +53,20 @@ const Documents = () => {
   return (
     documents ?
       <Wrapper>
-        <h1>Receipts for {currentUser.name}:</h1>
+        <h1>
+          Receipts 
+          {
+            currentUser.userType === "clinician" ?
+            <> issued by {currentUser.clinicName}</> :
+            <> for {currentUser.name}</>
+          }
+        </h1>
         {
           documents.length !== 0 ?
             <DocumentList>
               {
-                (documents.filter(document => document.recipientId === currentUser._id
-                  || document.recipientId === currentUser.clinicId).length === 0)
+                (documents.filter(document => document.patientId === currentUser._id
+                  || document.clinicId === currentUser.clinicId).length === 0)
                 && <>None found</>
               }
               {
@@ -68,9 +75,15 @@ const Documents = () => {
                     <div key={document._id}>
                       <hr/> 
                       <StyledLink to={`/viewdocument/${document._id}`}>
-                        {/* <div>{document.type} for </div> */}
-                        <div>{document.serviceCategory} at {document.clinicName}</div>
-                        <div>{moment(document.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+                        {
+                          currentUser.userType === "clinician" &&
+                          <div><strong>Patient:</strong> {document.patientName}</div>
+                        }
+                        <div>
+                          <strong>Service: </strong>{document.serviceCategory} at {document.clinicName}
+                        
+                        </div>
+                        <div><strong>Date:</strong>{moment(document.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
                       </StyledLink>
                     </div>
                   )

@@ -10,6 +10,7 @@ const ViewAppointment = () => {
   const history = useHistory();
   const {appointmentId} = useParams();
   const [appointment, setAppointment] = useState(null);
+  const [showCostBox, setShowCostBox] = useState(false);
 
   useEffect(() => {
     const checkLocalUser = localStorage.getItem("healthUser");
@@ -86,7 +87,8 @@ const ViewAppointment = () => {
     console.log(update);
   }
 
-  const issueReceipt = async () => {
+  const issueReceipt = async (ev) => {
+    ev.preventDefault();
     console.log(`issue receipt for appointment ${appointment._id}`);
     await updateAppointment({status: "completed"});
     await updateMessage({status: "completed"});
@@ -99,6 +101,7 @@ const ViewAppointment = () => {
       clinicName: appointment.clinicName,
       appointmentDate: appointment.date,
       serviceCategory: appointment.serviceCategory,
+      cost: ev.target.cost.value,
       timestamp: Date.now(),
       type: "receipt"
     };
@@ -173,6 +176,12 @@ const ViewAppointment = () => {
       <div><strong>Date:</strong> {appointment.date}</div>
       <div><strong>Service requested:</strong> {appointment.serviceCategory}</div>
       <div><strong>Status:</strong> {appointment.status}</div>
+      {
+        (appointment.status === "completed") &&
+        <div>
+          <strong>Cost: </strong>{appointment.cost}
+        </div>
+      }
       {/* {
         (appointment.status === "completed") &&
         <div><StyledLink to={`/viewdocument/${document._id}`}>View receipt</StyledLink></div>
@@ -181,11 +190,30 @@ const ViewAppointment = () => {
       
       { (currentUser.userType === "clinician" && appointment.status !== "completed")  &&
         <div>
-          <button name="receipt" onClick={issueReceipt}>Issue Receipt</button>
+          <div>
+            <StyledButton name="showCost" onClick={() => {
+              setShowCostBox(true);
+            }}>Complete Appointment</StyledButton>
+          </div>
+
+          {
+          showCostBox && 
+          <ChargeBox>
+            <form onSubmit={issueReceipt}>
+              <label>Enter cost: </label>
+              <input type="text" name="cost" />
+
+              <div>
+                {/* <StyledButton name="receipt" onClick={issueReceipt}>Issue Receipt</StyledButton> */}
+                <SubmitButton type="submit" value="Issue Receipt"/>
+                <ResetButton onClick={() => {setShowCostBox(false)}}>Cancel</ResetButton>
+              </div>
+            </form>
+          </ChargeBox>
+          }
         </div>
       }
       <div>
-        {/* <StyledLink to="/myappointments">Back to appointments</StyledLink> */}
         <BackButton onClick={() => {
             history.push(`/myappointments`);
         }}>Back to Appointments</BackButton>
@@ -194,6 +222,48 @@ const ViewAppointment = () => {
     <Wrapper>Loading ... </Wrapper>
   );
 };
+
+const ChargeBox = styled.div`
+  margin: 10px;
+`;
+
+const SubmitButton = styled.input`
+  margin: 5px;
+  padding: 5px 10px;
+  background: lightblue;
+  border: none;
+  border-radius: 5px;
+  transition: transform .2s;
+  &:hover {
+    transform: scale(1.1); 
+  }
+  &:active {
+    opacity: 60%;
+  }
+`;
+
+const ResetButton = styled.button`
+  margin: 5px;
+  padding: 5px 10px;
+  background: lightpink;
+  border: none;
+  border-radius: 5px;
+  &:active {
+    opacity: 60%;
+  }
+`;
+
+const StyledButton = styled.button`
+  margin-top: 5px;
+  background-color: royalblue;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  &:active {
+    background-color: lightblue;
+  }
+`;
 
 const StyledLink = styled(Link)`
   text-decoration: none;

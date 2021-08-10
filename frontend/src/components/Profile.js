@@ -16,7 +16,6 @@ const Profile = () => {
   const localUserId = localStorage.getItem("healthUser");
 
   useEffect( () => {
-    // const checkLocalUser = localStorage.getItem("healthUser");
     if (!localUserId || !currentUser) {
       console.log(`no logged in user found, redirecting...`);
       history.push("/login");

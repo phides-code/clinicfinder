@@ -95,6 +95,10 @@ const SendButton = styled.input`
   background: lightblue;
   border: none;
   border-radius: 5px;
+  transition: transform .2s;
+  &:hover {
+    transform: scale(1.1); 
+  }
   &:active {
     opacity: 60%;
   }
