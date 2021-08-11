@@ -18,7 +18,7 @@ const Header = () => {
   useEffect(() => {
     //
     const interval = setInterval(() => {
-      //check for new messages
+      // interval to check for new messages
       if (currentUser) {
         (async () => {
           // if this is a patient, get messages for this patient ID
@@ -59,7 +59,7 @@ const Header = () => {
       }  
     }, 15000);
     return () => clearInterval(interval);
-  }, []);
+  }, [currentUser]);
 
   return (
     <Wrapper>

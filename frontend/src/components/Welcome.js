@@ -22,7 +22,7 @@ const Welcome = () => {
   return (
     currentUser &&
     <div>
-      <div><h1>Welcome to the Healthcare-Finder, {
+      <div><h1>Welcome to the Clinic-Finder, {
         currentUser.name.substr(0,currentUser.name.indexOf(' '))
       }!</h1></div>
       <div>Your {currentUser.userType} ID is: <h2>{currentUser._id}</h2></div>
@@ -33,9 +33,22 @@ const Welcome = () => {
         </div>
       }
       
-      <div><Link to="/">Click here</Link> to go to the home page.</div>
+      <div><StyledLink to="/">Click here</StyledLink> to go to the home page.</div>
     </div>
   );
 };
+
+const StyledLink = styled(Link)`
+font-size: large;
+  text-decoration: none;
+  color: royalblue;
+  margin: 0 auto;
+  &:visited {
+    color: royalblue;
+  }
+  &:hover {
+    opacity: 90%;
+  }
+`;
 
 export default Welcome;

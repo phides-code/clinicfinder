@@ -82,6 +82,7 @@ const ClinicDetail = () => {
         
         {messageSuccess && 
           <div>
+            <hr/>
             <div>Message sent !</div>
             <div>
               {/* <StyledLink to="/">Click to return to the homepage</StyledLink> */}
