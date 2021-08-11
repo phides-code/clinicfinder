@@ -5,7 +5,7 @@ const Footer = () => {
 
   return (
     <Wrapper>
-      HealthcareFinder © 2021
+      ClinicFinder © 2021
     </Wrapper>
   );
 };

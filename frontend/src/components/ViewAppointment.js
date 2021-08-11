@@ -11,6 +11,7 @@ const ViewAppointment = () => {
   const {appointmentId} = useParams();
   const [appointment, setAppointment] = useState(null);
   const [showCostBox, setShowCostBox] = useState(false);
+  const [newReceipt, setNewReceipt] = useState(null);
 
   useEffect(() => {
     const checkLocalUser = localStorage.getItem("healthUser");
@@ -105,7 +106,9 @@ const ViewAppointment = () => {
       timestamp: Date.now(),
       type: "receipt"
     };
+
     let newReceipt;
+
     try {
       console.log(`trying fetch...`);
       const res = await fetch("/api/postdocument", {
@@ -114,9 +117,9 @@ const ViewAppointment = () => {
         body: JSON.stringify(receipt)
       });
       const data = await res.json();
-      // console.log(`got data:`);
-      // console.log(data);
+
       newReceipt = data.newDocument;
+      // setNewReceipt(data.newDocument);
 
       if (data.status === 201) {
         console.log("created document in db");
@@ -130,7 +133,7 @@ const ViewAppointment = () => {
       window.alert(`issueReceipt caught an error while creating document.`);
     }
 
-    ///////////////////////////////////////////////////////////////////////
+    // post a notification message to the patient
     try {
       const res = await fetch("/api/postmessage", {
         method: "POST",
@@ -163,7 +166,6 @@ const ViewAppointment = () => {
       console.log(err);
       window.alert(`issueReceipt caught an error while posting message...`);
     }
-    ///////////////////////////////////////////////////////////////////////
     history.push("/myappointments");
   };
 
@@ -179,7 +181,8 @@ const ViewAppointment = () => {
       {
         (appointment.status === "completed") &&
         <div>
-          <strong>Cost: </strong>{appointment.cost}
+          {/* <strong>Cost: </strong>{appointment.cost} */}
+          View Receipt id
         </div>
       }
       {/* {
@@ -204,7 +207,6 @@ const ViewAppointment = () => {
               <input type="text" name="cost" />
 
               <div>
-                {/* <StyledButton name="receipt" onClick={issueReceipt}>Issue Receipt</StyledButton> */}
                 <SubmitButton type="submit" value="Issue Receipt"/>
                 <ResetButton onClick={() => {setShowCostBox(false)}}>Cancel</ResetButton>
               </div>
