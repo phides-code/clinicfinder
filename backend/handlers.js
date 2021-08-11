@@ -701,6 +701,19 @@ const getPatients = async (req, res) => {
 
 };
 
+// const newMessageCheck = async (req, res) => {
+//   const client = new MongoClient (MONGO_URI, options);
+//   await client.connect();
+//   const db = client.db("healthdb");
+//   console.log("connected to db");
+
+//   try {
+//     const results = await db.collection("messages").find()
+//   } catch (err) {
+
+//   }
+// };
+
 module.exports = {
   createUser,
   verifyUser,
@@ -720,5 +733,6 @@ module.exports = {
   postDocument,
   getDocumentById,
   getDocuments,
-  getPatients
+  getPatients,
+  // newMessageCheck
 };

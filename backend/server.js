@@ -26,7 +26,8 @@ const {
   postDocument,
   getDocumentById,
   getDocuments,
-  getPatients
+  getPatients,
+  // newMessageCheck
 } = require("./handlers");
 
 express()
@@ -64,6 +65,7 @@ express()
   .post('/api/getdocumentbyid', getDocumentById)
   .post('/api/getdocuments', getDocuments)
   .post('/api/getpatients', getPatients)
+  // .post('/api/newmessagecheck', newMessageCheck)
 
   // add new endpoints here ☝️
   // ---------------------------------

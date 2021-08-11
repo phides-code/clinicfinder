@@ -53,7 +53,7 @@ const ClinicDetail = () => {
             {/* <StyledLink to="/findaprovider">{`< go back`}</StyledLink> */}
             <BackButton onClick={() => {history.goBack();}}>Back</BackButton>
 
-            <h1>{clinic.name}</h1>
+            <h3>{clinic.name}</h3>
 
             {
               clinic.location.display_address.map((addressLine, i) => {
@@ -139,7 +139,7 @@ const ClinicInfo = styled.div`
 const Wrapper = styled.div`
   padding: 5px;
   border-radius: 10px;
-  margin: 50px 50px;
+  margin: 10px 10px;
   background-color: white;
 `;
 

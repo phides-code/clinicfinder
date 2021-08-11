@@ -63,8 +63,9 @@ const FindAProvider = () => {
     categories ?
       <Wrapper>
         <SelectClinic>
+          <div>Select a category of healthcare:</div>
           <select onChange={getProviders}>
-            <option>Select a category of healthcare:</option>
+            {/* <option>Select a category of healthcare:</option> */}
             {
               categories.map(category => {
                 return (<option value={category.alias} key={category.alias}>{category.title}</option>);

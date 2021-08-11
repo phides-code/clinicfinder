@@ -55,9 +55,9 @@ const RequestAppointment = ({clinic}) => {
 
   return (
     <div>
-      <h1>
+      <h3>
         Request an Appointment with {clinic.name}:
-      </h1>
+      </h3>
 
       <div>Your Name: {currentUser.name}</div>
         <div>Email: {currentUser.email}</div>

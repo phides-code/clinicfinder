@@ -71,22 +71,25 @@ const Documents = () => {
               }
               {
                 documents.map(document => {
-                  return(
-                    <div key={document._id}>
-                      <hr/> 
-                      <StyledLink to={`/viewdocument/${document._id}`}>
-                        {
-                          currentUser.userType === "clinician" &&
-                          <div><strong>Patient:</strong> {document.patientName}</div>
-                        }
-                        <div>
-                          <strong>Service: </strong>{document.serviceCategory} at {document.clinicName}
-                        
+                  if (document.patientId === currentUser._id
+                    || document.clinicId === currentUser.clinicId) {
+                      return(
+                        <div key={document._id}>
+                          <hr/> 
+                          <StyledLink to={`/viewdocument/${document._id}`}>
+                            {
+                              currentUser.userType === "clinician" &&
+                              <div><strong>Patient:</strong> {document.patientName}</div>
+                            }
+                            <div>
+                              <strong>Service: </strong>{document.serviceCategory} at {document.clinicName}
+                            
+                            </div>
+                            <div><strong>Date:</strong>{moment(document.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
+                          </StyledLink>
                         </div>
-                        <div><strong>Date:</strong>{moment(document.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
-                      </StyledLink>
-                    </div>
-                  )
+                      )
+                    }
                 })
               } 
             </DocumentList> :

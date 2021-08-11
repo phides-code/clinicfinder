@@ -22,7 +22,7 @@ const Welcome = () => {
   return (
     currentUser &&
     <div>
-      <div><h1>Welcome to the Healthcare-App, {
+      <div><h1>Welcome to the Healthcare-Finder, {
         currentUser.name.substr(0,currentUser.name.indexOf(' '))
       }!</h1></div>
       <div>Your {currentUser.userType} ID is: <h2>{currentUser._id}</h2></div>

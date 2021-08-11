@@ -75,12 +75,11 @@ const Messages = () => {
                     || message.recipientId === currentUser.clinicId) {
                     return(
                       <div key={message._id}>
-                        <hr/> {message.read === false && <>NEW</>}
+                        <hr/> {message.read === false && <NewMessageFlag>NEW</NewMessageFlag>}
                         <StyledLink to={`/viewmessage/${message._id}`}>
-                          <div><strong>From: </strong>{message.senderName}{` - `}{message.type}</div>
+                          <div><strong>From: </strong>{message.senderName}</div>
                           <div><strong>Date: </strong>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
-                          <div><strong>Message type: </strong> {message.type}</div>
-                          <div><strong>Status: </strong> {message.status}</div>
+                          {/* <div><strong>Status: </strong> {message.status}</div> */}
                         </StyledLink>
                       </div>
                     )
@@ -110,8 +109,8 @@ const Messages = () => {
                         <StyledLink to={`/viewmessage/${message._id}`}>
                           <div><strong>To: </strong>{message.recipientName}</div>
                           <div><strong>Date: </strong>{moment(message.timestamp).format('MMMM Do YYYY, hh:mm:ss a')}</div>
-                          <div><strong>Message type: </strong> {message.type}</div>
-                          <div><strong>Status: </strong> {message.status}</div>
+                          {/* <div><strong>Message type: </strong> {message.type}</div>
+                          <div><strong>Status: </strong> {message.status}</div> */}
                         </StyledLink>
                       </div>
                     )
@@ -147,6 +146,10 @@ const Wrapper = styled.div`
 const MessageList = styled.div`
   display: flex;
 	flex-direction: column-reverse;
+`;
+
+const NewMessageFlag = styled.span`
+  color: red;
 `;
 
 export default Messages;

@@ -166,7 +166,7 @@ const MainGrid = styled.div`
 `;
 
 const PatientSignupButton = styled.button`
-  font-size: xx-large;
+  font-size: large;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -179,7 +179,7 @@ const PatientSignupButton = styled.button`
 `;
 
 const ClinicianSignupButton = styled.button`
-  font-size: xx-large;
+  font-size: large;
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
@@ -190,7 +190,7 @@ const ClinicianSignupButton = styled.button`
 `;
 
 const LoginButton = styled.button`
-  font-size: xx-large;
+  font-size: large;
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
