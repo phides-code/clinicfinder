@@ -71,7 +71,7 @@ const ClinicDetail = () => {
             }
           </LeftColumn>
           <RightColumn>
-            <StyledImg src={clinic.image_url}/>
+            <Link to={`/clinicphotos/${clinicId}`}><StyledImg src={clinic.image_url}/></Link>
             { (!messageSuccess && currentUser.userType === "patient") && 
               <RequestButton onClick={() => {setRequestAppointment(true);}}>Request an appointment</RequestButton>
             }

@@ -66,6 +66,7 @@ const FindAProvider = () => {
           <div>Select a category of healthcare:</div>
           <select onChange={getProviders}>
             {/* <option>Select a category of healthcare:</option> */}
+            <option value="0">-</option>
             {
               categories.map(category => {
                 return (<option value={category.alias} key={category.alias}>{category.title}</option>);

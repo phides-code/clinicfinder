@@ -22,6 +22,7 @@ import ViewPatients from "./ViewPatients";
 import ViewDocument from "./ViewDocument";
 import Documents from "./Documents";
 import clinicImg from "../assets/clinic.jpeg";
+import ClinicPhotos from "./ClinicPhotos";
 
 const App = () => {
   const {
@@ -118,6 +119,10 @@ const App = () => {
 
             <Route exact path="/clinicdetail/:clinicId">
               <ClinicDetail />
+            </Route>
+
+            <Route exact path="/clinicphotos/:clinicId">
+              <ClinicPhotos />
             </Route>
             
             <Route exact path="/profile/:id">
