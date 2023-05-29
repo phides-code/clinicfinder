@@ -1,5 +1,5 @@
 {
-    "name": "clinic-finder",
+    "name": "clinicfinder",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -10,12 +10,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/phides-code/clinic-finder.git"
+        "url": "git+https://github.com/phides-code/clinicfinder.git"
     },
     "author": "Philippe DeSousa",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/phides-code/clinic-finder/issues"
+        "url": "https://github.com/phides-code/clinicfinder/issues"
     },
-    "homepage": "https://github.com/phides-code/clinic-finder#readme"
+    "homepage": "https://github.com/phides-code/clinicfinder#readme"
 }

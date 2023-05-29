@@ -21,7 +21,7 @@ const Welcome = () => {
             <div>
                 <div>
                     <h1>
-                        Welcome to the Clinic-Finder,{' '}
+                        Welcome to the clinicfinder,{' '}
                         {currentUser.name.substr(
                             0,
                             currentUser.name.indexOf(' ')

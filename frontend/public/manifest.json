@@ -1,6 +1,6 @@
 {
-    "short_name": "clinic-finder",
-    "name": "clinic-finder",
+    "short_name": "clinicfinder",
+    "name": "clinicfinder",
     "icons": [
         {
             "src": "favicon.ico",
