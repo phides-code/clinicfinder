@@ -176,7 +176,8 @@ const MainGrid = styled.div`
     background-color: white;
     border-radius: 10px;
     margin: 50px 50px;
-    padding: 20px 20px;
+    padding: 20px 10px;
+    max-width: 360px;
 `;
 
 const PatientSignupButton = styled.button`

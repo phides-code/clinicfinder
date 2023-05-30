@@ -181,7 +181,8 @@ const ClinicList = styled.div`
     margin-bottom: 10px;
     border-radius: 5px;
     padding: 10px 20px;
-    width: 400px;
+    /* width: 400px; */
+    width: 300px;
 `;
 
 const SelectClinic = styled.div`
