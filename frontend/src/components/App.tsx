@@ -10,7 +10,6 @@ import Signup from './Signup';
 import ClinicianSignup from './ClinicianSignup';
 import Welcome from './Welcome';
 import { UserContext } from './UserContext';
-// import { useNavigate } from 'react-router';
 import Profile from './Profile';
 import FindAProvider from './FindAProvider';
 import ClinicDetail from './ClinicDetail';
@@ -24,16 +23,8 @@ import Documents from './Documents';
 import ClinicPhotos from './ClinicPhotos';
 
 const App = () => {
-    const { currentUser, setCurrentUser } = useContext(UserContext);
-    // const navigate = useNavigate();
-
-    // const params = useParams();
-
-    const redirectToLogin = () => {
-        const currentDomain = window.location.origin;
-        const loginUrl = `${currentDomain}/login`;
-        window.location.href = loginUrl;
-    };
+    const { currentUser, setCurrentUser, redirectToRoute, setIsLoading } =
+        useContext(UserContext);
 
     let localUser: string;
     let localHash: string;
@@ -45,6 +36,7 @@ const App = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         localUser = localStorage.getItem('healthUser') as string;
         if (localUser && !currentUser) {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             // log the user in
             console.log(`Lost state... login this user automatically`);
             // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,6 +49,7 @@ const App = () => {
         console.log(`App.js verifying patientId: ${localUser}`);
 
         try {
+            setIsLoading(true);
             const res = await fetch('/api/users/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -78,21 +71,21 @@ const App = () => {
                 setCurrentUser(null);
                 localStorage.removeItem('healthUser');
                 localStorage.removeItem('healthHash');
-                // navigate('/login');
-                redirectToLogin();
+                redirectToRoute('/login');
             } else {
                 window.alert(`got unexpected status:
         ${data.status}: ${data.message}`);
                 setCurrentUser(null);
                 localStorage.removeItem('healthUser');
                 localStorage.removeItem('healthHash');
-                // navigate('/login');
-                redirectToLogin();
+                redirectToRoute('/login');
             }
         } catch (err) {
             console.log(`App.js userLogin caught an error:`);
             console.log(err);
             window.alert(`App.js userLogin caught an error...`);
+        } finally {
+            setIsLoading(false);
         }
     };
 

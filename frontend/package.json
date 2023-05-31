@@ -46,6 +46,7 @@
   },
   "proxy": "http://localhost:8000",
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@types/styled-components": "^5.1.26",
     "file-loader": "^6.2.0",
     "url-loader": "^4.1.1"

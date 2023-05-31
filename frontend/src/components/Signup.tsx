@@ -69,6 +69,7 @@ const Signup = () => {
                 if (data.status === 201) {
                     localStorage.setItem('healthUser', data.newUser._id);
                     localStorage.setItem('healthUserHash', hashedPassword);
+                    // postMessage for new user here
                     setCurrentUser(data.newUser);
                     navigate('/welcome');
                 } else {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
@@ -11,7 +11,7 @@ import patientsImg from '../assets/patients.svg';
 
 const Home = () => {
     const navigate = useNavigate();
-    const { currentUser } = useContext(UserContext);
+    const { currentUser, userLogin, isLoading } = useContext(UserContext);
 
     const [clinic, setClinic] = useState(null);
 
@@ -45,6 +45,10 @@ const Home = () => {
             })();
         }
     }, [currentUser]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <Wrapper>
@@ -94,13 +98,37 @@ const Home = () => {
             ) : (
                 <LoginSignupArea>
                     <LoginDiv>
-                        <LoginButton
-                            onClick={() => {
-                                navigate('/login');
-                            }}
-                        >
-                            Login
-                        </LoginButton>
+                        <LoginSection>
+                            <LoginButton
+                                onClick={() => {
+                                    navigate('/login');
+                                }}
+                            >
+                                Login
+                            </LoginButton>
+                        </LoginSection>
+                        <DemoLoginSection>
+                            <form onSubmit={(ev) => userLogin(ev)}>
+                                <div style={{ display: 'none' }}>
+                                    <input
+                                        name='patientId'
+                                        readOnly
+                                        value='demo'
+                                    />
+
+                                    <input
+                                        type='password'
+                                        name='password'
+                                        value='demo'
+                                        readOnly
+                                    />
+                                </div>
+
+                                <DemoLoginButton type='submit' value='Login'>
+                                    Demo Login
+                                </DemoLoginButton>
+                            </form>
+                        </DemoLoginSection>
                     </LoginDiv>
 
                     <SignupDiv>
@@ -154,9 +182,6 @@ const StyledLink = styled(Link)`
 const MenuIcon = styled.div`
     height: 120px;
     width: 120px;
-    /*min-width: 100px; */
-    /* min-height: 200px; */
-
     background-color: lightblue;
     border-radius: 5px;
     padding: 5px 10px;
@@ -216,6 +241,8 @@ const LoginButton = styled.button`
     }
 `;
 
+const DemoLoginButton = styled(LoginButton)``;
+
 const LoginSignupArea = styled.div`
     margin-top: 100px;
     display: flex;
@@ -231,24 +258,29 @@ const LoginSignupArea = styled.div`
 
 const LoginDiv = styled.div`
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
 `;
 
 const SignupDiv = styled.div`
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: flex-start;
-    align-content: stretch;
+    justify-content: space-between;
+    width: 100%;
 `;
+
+const LoginSection = styled.div`
+    margin-right: 20px;
+`;
+const DemoLoginSection = styled.div``;
 
 const PatientSignup = styled.div`
-    margin-right: 10px;
+    margin-right: 20px;
 `;
 
-const ClinicianSignup = styled.div`
-    margin-left: 10px;
-`;
+const ClinicianSignup = styled.div``;
 
 const Wrapper = styled.div`
     display: flex;
