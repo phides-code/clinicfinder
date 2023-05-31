@@ -79,7 +79,7 @@ const Header = () => {
                             alt='messages icon'
                             title='Messages'
                         />
-                        {newMessages && <NewMessage>*</NewMessage>}
+                        {newMessages && <NewMessage>* New Message!</NewMessage>}
                     </StyledLink>
                 )}
             </LeftHeaderSection>
