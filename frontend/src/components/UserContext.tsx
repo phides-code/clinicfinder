@@ -30,6 +30,8 @@ interface UserContextProps {
     redirectToRoute: (route: string) => void;
     isLoading: boolean;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    newMessages: boolean;
+    setNewMessages: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const UserContext = createContext<UserContextProps>({
@@ -47,6 +49,8 @@ export const UserContext = createContext<UserContextProps>({
     redirectToRoute: (_: string) => {},
     isLoading: false,
     setIsLoading: () => {},
+    newMessages: false,
+    setNewMessages: () => {},
 });
 
 export const UserProvider = ({ children }: UserProviderProps) => {
@@ -55,6 +59,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [messageSuccess, setMessageSuccess] = useState(false);
     const [invalidUser, setInvalidUser] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [newMessages, setNewMessages] = useState(false);
 
     const redirectToRoute = (route: string) => {
         const currentDomain = window.location.origin;
@@ -127,6 +132,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
                 redirectToRoute,
                 isLoading,
                 setIsLoading,
+                newMessages,
+                setNewMessages,
             }}
         >
             {children}

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
@@ -8,9 +8,8 @@ import msgIcon from '../assets/mail.svg';
 
 const Header = () => {
     const navigate = useNavigate();
-    const { currentUser, setCurrentUser } = useContext(UserContext);
-
-    const [newMessages, setNewMessages] = useState(false);
+    const { currentUser, setCurrentUser, newMessages, setNewMessages } =
+        useContext(UserContext);
 
     useEffect(() => {
         //
@@ -61,7 +60,7 @@ const Header = () => {
             }
         }, 15000);
         return () => clearInterval(interval);
-    }, [currentUser]);
+    }, [currentUser, setNewMessages]);
 
     return (
         <Wrapper>
@@ -152,15 +151,8 @@ const MessageIcon = styled.img`
 `;
 
 const MainIcon = styled.img`
-    /* margin-left: 5px; */
     margin: 10px;
     height: 40px;
-    /* display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-between;
-	align-items: center;
-	align-content: center; */
     transition: transform 0.2s;
     &:hover {
         transform: scale(1.1);
@@ -169,14 +161,8 @@ const MainIcon = styled.img`
 
 const StyledLink = styled(Link)`
     text-decoration: none;
-    /* font-size: 60px; */
     color: red;
 `;
-
-// const HeaderSection = styled.div`
-//      padding-top: 1%;
-//   padding-bottom: 2%;
-// `;
 
 const LeftHeaderSection = styled.div`
     display: flex;
@@ -189,8 +175,6 @@ const LeftHeaderSection = styled.div`
 
 const RightHeaderSection = styled.div`
     margin-right: 10px;
-    /* padding-top: 1%;
-  padding-bottom: 2%; */
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;

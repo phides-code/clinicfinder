@@ -6,7 +6,7 @@ const CryptoJS = require('crypto-js');
 
 const Signup = () => {
     const navigate = useNavigate();
-    const { setCurrentUser } = useContext(UserContext);
+    const { setCurrentUser, setNewMessages } = useContext(UserContext);
 
     useEffect(() => {
         const checkLocalUser = localStorage.getItem('healthUser');
@@ -69,8 +69,28 @@ const Signup = () => {
                 if (data.status === 201) {
                     localStorage.setItem('healthUser', data.newUser._id);
                     localStorage.setItem('healthUserHash', hashedPassword);
-                    // postMessage for new user here
+
+                    await fetch('/api/postmessage', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            recipientId: data.newUser._id,
+                            recipientName: data.newUser.name,
+                            senderId: '0',
+                            senderName: 'ClinicFinder Admin',
+                            senderEmail: 'admin@clinicfinder',
+                            senderPhone: '555-555-1234',
+                            timestamp: Date.now(),
+                            message: `Welcome to ClinicFinder! Get started by searching for a healthcare provider in your area and booking an appointment!`,
+                            receiptId: '0',
+                            type: 'message',
+                            status: 'n/a',
+                            read: false,
+                        }),
+                    });
+
                     setCurrentUser(data.newUser);
+                    setNewMessages(true);
                     navigate('/welcome');
                 } else {
                     window.alert(`got unexpected status:
