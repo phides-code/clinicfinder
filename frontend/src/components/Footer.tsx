@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Footer = () => {
-    return <Wrapper>ClinicFinder © Philippe DeSousa 2021, 2023</Wrapper>;
+    return <Wrapper>ClinicFinder © Philippe DeSousa 2021, 2025</Wrapper>;
 };
 
 const Wrapper = styled.div`
